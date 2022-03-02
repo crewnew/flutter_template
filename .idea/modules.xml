@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/infrastructure/codegen/melos_codegen.iml" filepath="$PROJECT_DIR$/infrastructure/codegen/melos_codegen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/infrastructure/core/melos_core.iml" filepath="$PROJECT_DIR$/infrastructure/core/melos_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/infrastructure/responsive/melos_responsive.iml" filepath="$PROJECT_DIR$/infrastructure/responsive/melos_responsive.iml" />
+      <module fileurl="file://$PROJECT_DIR$/melos_project.iml" filepath="$PROJECT_DIR$/melos_project.iml" />
+    </modules>
+  </component>
+</project>

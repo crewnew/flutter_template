@@ -1,0 +1,44 @@
+targets:
+  $default:
+    builders:
+      graphql_codegen:
+        options:
+          outputDirectory: ./
+          assetsPath: lib/src/**.graphql
+          scopes: 
+            - lib/src/**.graphql
+          namingSeparator: ""
+          includeIfNullOnInput: false
+          addTypenameExcludedPaths: [subscription]
+          extraKeywords: 
+            - String
+          clients:
+            - graphql
+            - graphql_flutter
+          scalars:
+            timestamptz:
+              type: DateTime
+              fromJsonFunctionName: fromGraphQLTimestamptzToDartDateTime
+              toJsonFunctionName: fromDartDateTimeToGraphQLTimestamptz
+              import: package:codegen/src/scalars/coercers.dart
+            date:
+              type: DateTime
+              fromJsonFunctionName: fromGraphQLDateToDartDateTime
+              toJsonFunctionName: fromDartDateTimeToGraphQLDate
+              import: package:codegen/src/scalars/coercers.dart
+            uuid:
+              type: String
+            json:
+              type: Map<String,dynamic>
+            numeric:
+              type: double
+            jsonb:
+              type: Map<String,dynamic>
+            bytea:
+              type: int
+            bigint:
+              type: int
+            citext:
+              type: String
+            float8:
+              type: double

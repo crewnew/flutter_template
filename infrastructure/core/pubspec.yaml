@@ -1,0 +1,32 @@
+name: core
+description: A new Flutter package project.
+version: 0.0.1
+publish_to: 'none'
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  hooks_riverpod: 2.0.0-dev.9
+  flutter_hooks: ^0.18.5+1
+  json_annotation: ^4.5.0
+  intl: ^0.17.0
+  nhost_sdk: ^3.0.4
+  nhost_flutter_auth: ^2.0.4
+  beamer: ^1.5.2
+  shared_preferences: ^2.0.15
+  flutter_use: ^0.0.3
+  graphql:
+  http: 
+  dart_extensions: ^2.2.0
+  codegen:
+    path: ../codegen
+  responsive:
+    path: ../responsive
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+flutter:
+  uses-material-design: true

@@ -1,0 +1,11 @@
+fragment User on users {
+  id
+  avatarUrl
+  displayName
+  email
+  locale
+  metadata
+  phoneNumber
+  lastSeen
+  createdAt
+}

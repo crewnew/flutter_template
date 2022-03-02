@@ -1,0 +1,6 @@
+# Tip: Use *_set_input as a mutation variable, as you get the argument model.
+mutation UpdateUser($id: uuid = "", $input: usersSetInput = {}) {
+  updateUser(pk_columns: {id: $id}, _set: $input) {
+    ...User
+  }
+}

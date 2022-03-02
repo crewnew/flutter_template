@@ -1,0 +1,5348 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""whether this query should be cached (Hasura Cloud only)"""
+directive @cached(
+  """measured in seconds"""
+  ttl: Int! = 60
+
+  """refresh the cache entry"""
+  refresh: Boolean! = false
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
+"""
+input BigintComparisonExp {
+  _eq: bigint
+  _gt: bigint
+  _gte: bigint
+  _in: [bigint!]
+  _isNull: Boolean
+  _lt: bigint
+  _lte: bigint
+  _neq: bigint
+  _nin: [bigint!]
+}
+
+"""
+Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'.
+"""
+input BooleanComparisonExp {
+  _eq: Boolean
+  _gt: Boolean
+  _gte: Boolean
+  _in: [Boolean!]
+  _isNull: Boolean
+  _lt: Boolean
+  _lte: Boolean
+  _neq: Boolean
+  _nin: [Boolean!]
+}
+
+"""
+Boolean expression to compare columns of type "bytea". All fields are combined with logical 'AND'.
+"""
+input ByteaComparisonExp {
+  _eq: bytea
+  _gt: bytea
+  _gte: bytea
+  _in: [bytea!]
+  _isNull: Boolean
+  _lt: bytea
+  _lte: bytea
+  _neq: bytea
+  _nin: [bytea!]
+}
+
+"""
+Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'.
+"""
+input CitextComparisonExp {
+  _eq: citext
+  _gt: citext
+  _gte: citext
+
+  """does the column match the given case-insensitive pattern"""
+  _ilike: citext
+  _in: [citext!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: citext
+  _isNull: Boolean
+
+  """does the column match the given pattern"""
+  _like: citext
+  _lt: citext
+  _lte: citext
+  _neq: citext
+
+  """does the column NOT match the given case-insensitive pattern"""
+  _nilike: citext
+  _nin: [citext!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: citext
+
+  """does the column NOT match the given pattern"""
+  _nlike: citext
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: citext
+
+  """does the column NOT match the given SQL regular expression"""
+  _nsimilar: citext
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: citext
+
+  """does the column match the given SQL regular expression"""
+  _similar: citext
+}
+
+"""ordering argument of a cursor"""
+enum CursorOrdering {
+  """ascending ordering of the cursor"""
+  ASC
+
+  """descending ordering of the cursor"""
+  DESC
+}
+
+"""
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input IntComparisonExp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _isNull: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+input JsonbCastExp {
+  String: StringComparisonExp
+}
+
+"""
+Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'.
+"""
+input JsonbComparisonExp {
+  _cast: JsonbCastExp
+
+  """is the column contained in the given json value"""
+  _containedIn: jsonb
+
+  """does the column contain the given json value at the top level"""
+  _contains: jsonb
+  _eq: jsonb
+  _gt: jsonb
+  _gte: jsonb
+
+  """does the string exist as a top-level key in the column"""
+  _hasKey: String
+
+  """do all of these strings exist as top-level keys in the column"""
+  _hasKeysAll: [String!]
+
+  """do any of these strings exist as top-level keys in the column"""
+  _hasKeysAny: [String!]
+  _in: [jsonb!]
+  _isNull: Boolean
+  _lt: jsonb
+  _lte: jsonb
+  _neq: jsonb
+  _nin: [jsonb!]
+}
+
+"""column ordering options"""
+enum OrderBy {
+  """in ascending order, nulls last"""
+  ASC
+
+  """in ascending order, nulls first"""
+  ASC_NULLS_FIRST
+
+  """in ascending order, nulls last"""
+  ASC_NULLS_LAST
+
+  """in descending order, nulls first"""
+  DESC
+
+  """in descending order, nulls first"""
+  DESC_NULLS_FIRST
+
+  """in descending order, nulls last"""
+  DESC_NULLS_LAST
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input StringComparisonExp {
+  _eq: String
+  _gt: String
+  _gte: String
+
+  """does the column match the given case-insensitive pattern"""
+  _ilike: String
+  _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _isNull: Boolean
+
+  """does the column match the given pattern"""
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+
+  """does the column NOT match the given case-insensitive pattern"""
+  _nilike: String
+  _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """does the column NOT match the given pattern"""
+  _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """does the column NOT match the given SQL regular expression"""
+  _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """does the column match the given SQL regular expression"""
+  _similar: String
+}
+
+"""
+Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
+"""
+input TimestamptzComparisonExp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _isNull: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
+
+"""
+Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'.
+"""
+input UuidComparisonExp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _isNull: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
+}
+
+"""
+Oauth requests, inserted before redirecting to the provider's site. Don't modify its structure as Hasura Auth relies on it to function properly.
+"""
+type authProviderRequests {
+  id: uuid!
+  options(
+    """JSON select path"""
+    path: String
+  ): jsonb
+}
+
+"""
+aggregated selection of "auth.provider_requests"
+"""
+type authProviderRequestsAggregate {
+  aggregate: authProviderRequestsAggregateFields
+  nodes: [authProviderRequests!]!
+}
+
+"""
+aggregate fields of "auth.provider_requests"
+"""
+type authProviderRequestsAggregateFields {
+  count(columns: [authProviderRequestsSelectColumn!], distinct: Boolean): Int!
+  max: authProviderRequestsMaxFields
+  min: authProviderRequestsMinFields
+}
+
+"""append existing jsonb value of filtered columns with new jsonb value"""
+input authProviderRequestsAppendInput {
+  options: jsonb
+}
+
+"""
+Boolean expression to filter rows from the table "auth.provider_requests". All fields are combined with a logical 'AND'.
+"""
+input authProviderRequestsBoolExp {
+  _and: [authProviderRequestsBoolExp!]
+  _not: authProviderRequestsBoolExp
+  _or: [authProviderRequestsBoolExp!]
+  id: UuidComparisonExp
+  options: JsonbComparisonExp
+}
+
+"""
+unique or primary key constraints on table "auth.provider_requests"
+"""
+enum authProviderRequestsConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  provider_requests_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input authProviderRequestsDeleteAtPathInput {
+  options: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input authProviderRequestsDeleteElemInput {
+  options: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input authProviderRequestsDeleteKeyInput {
+  options: String
+}
+
+"""
+input type for inserting data into table "auth.provider_requests"
+"""
+input authProviderRequestsInsertInput {
+  id: uuid
+  options: jsonb
+}
+
+"""aggregate max on columns"""
+type authProviderRequestsMaxFields {
+  id: uuid
+}
+
+"""aggregate min on columns"""
+type authProviderRequestsMinFields {
+  id: uuid
+}
+
+"""
+response of any mutation on the table "auth.provider_requests"
+"""
+type authProviderRequestsMutationResponse {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [authProviderRequests!]!
+}
+
+"""
+on_conflict condition type for table "auth.provider_requests"
+"""
+input authProviderRequestsOnConflict {
+  constraint: authProviderRequestsConstraint!
+  update_columns: [authProviderRequestsUpdateColumn!]! = []
+  where: authProviderRequestsBoolExp
+}
+
+"""Ordering options when selecting data from "auth.provider_requests"."""
+input authProviderRequestsOrderBy {
+  id: OrderBy
+  options: OrderBy
+}
+
+"""primary key columns input for table: auth.provider_requests"""
+input authProviderRequestsPkColumnsInput {
+  id: uuid!
+}
+
+"""prepend existing jsonb value of filtered columns with new jsonb value"""
+input authProviderRequestsPrependInput {
+  options: jsonb
+}
+
+"""
+select columns of table "auth.provider_requests"
+"""
+enum authProviderRequestsSelectColumn {
+  """column name"""
+  id
+
+  """column name"""
+  options
+}
+
+"""
+input type for updating data in table "auth.provider_requests"
+"""
+input authProviderRequestsSetInput {
+  id: uuid
+  options: jsonb
+}
+
+"""
+update columns of table "auth.provider_requests"
+"""
+enum authProviderRequestsUpdateColumn {
+  """column name"""
+  id
+
+  """column name"""
+  options
+}
+
+input authProviderRequestsUpdates {
+  """append existing jsonb value of filtered columns with new jsonb value"""
+  _append: authProviderRequestsAppendInput
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _deleteAtPath: authProviderRequestsDeleteAtPathInput
+
+  """
+  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+  """
+  _deleteElem: authProviderRequestsDeleteElemInput
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _deleteKey: authProviderRequestsDeleteKeyInput
+
+  """prepend existing jsonb value of filtered columns with new jsonb value"""
+  _prepend: authProviderRequestsPrependInput
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: authProviderRequestsSetInput
+  where: authProviderRequestsBoolExp!
+}
+
+"""
+Streaming cursor of the table "authProviderRequests"
+"""
+input authProviderRequests_streamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: authProviderRequests_streamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input authProviderRequests_streamCursorValueInput {
+  id: uuid
+  options: jsonb
+}
+
+"""
+List of available Oauth providers. Don't modify its structure as Hasura Auth relies on it to function properly.
+"""
+type authProviders {
+  id: String!
+
+  """An array relationship"""
+  userProviders(
+    """distinct select on columns"""
+    distinctOn: [authUserProvidersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserProvidersOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserProvidersBoolExp
+  ): [authUserProviders!]!
+
+  """An aggregate relationship"""
+  userProvidersAggregate(
+    """distinct select on columns"""
+    distinctOn: [authUserProvidersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserProvidersOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserProvidersBoolExp
+  ): authUserProvidersAggregate!
+}
+
+"""
+aggregated selection of "auth.providers"
+"""
+type authProvidersAggregate {
+  aggregate: authProvidersAggregateFields
+  nodes: [authProviders!]!
+}
+
+"""
+aggregate fields of "auth.providers"
+"""
+type authProvidersAggregateFields {
+  count(columns: [authProvidersSelectColumn!], distinct: Boolean): Int!
+  max: authProvidersMaxFields
+  min: authProvidersMinFields
+}
+
+"""
+Boolean expression to filter rows from the table "auth.providers". All fields are combined with a logical 'AND'.
+"""
+input authProvidersBoolExp {
+  _and: [authProvidersBoolExp!]
+  _not: authProvidersBoolExp
+  _or: [authProvidersBoolExp!]
+  id: StringComparisonExp
+  userProviders: authUserProvidersBoolExp
+}
+
+"""
+unique or primary key constraints on table "auth.providers"
+"""
+enum authProvidersConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  providers_pkey
+}
+
+"""
+input type for inserting data into table "auth.providers"
+"""
+input authProvidersInsertInput {
+  id: String
+  userProviders: authUserProvidersArrRelInsertInput
+}
+
+"""aggregate max on columns"""
+type authProvidersMaxFields {
+  id: String
+}
+
+"""aggregate min on columns"""
+type authProvidersMinFields {
+  id: String
+}
+
+"""
+response of any mutation on the table "auth.providers"
+"""
+type authProvidersMutationResponse {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [authProviders!]!
+}
+
+"""
+input type for inserting object relation for remote table "auth.providers"
+"""
+input authProvidersObjRelInsertInput {
+  data: authProvidersInsertInput!
+
+  """upsert condition"""
+  onConflict: authProvidersOnConflict
+}
+
+"""
+on_conflict condition type for table "auth.providers"
+"""
+input authProvidersOnConflict {
+  constraint: authProvidersConstraint!
+  update_columns: [authProvidersUpdateColumn!]! = []
+  where: authProvidersBoolExp
+}
+
+"""Ordering options when selecting data from "auth.providers"."""
+input authProvidersOrderBy {
+  id: OrderBy
+  userProvidersAggregate: authUserProvidersAggregateOrderBy
+}
+
+"""primary key columns input for table: auth.providers"""
+input authProvidersPkColumnsInput {
+  id: String!
+}
+
+"""
+select columns of table "auth.providers"
+"""
+enum authProvidersSelectColumn {
+  """column name"""
+  id
+}
+
+"""
+input type for updating data in table "auth.providers"
+"""
+input authProvidersSetInput {
+  id: String
+}
+
+"""
+update columns of table "auth.providers"
+"""
+enum authProvidersUpdateColumn {
+  """column name"""
+  id
+}
+
+input authProvidersUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: authProvidersSetInput
+  where: authProvidersBoolExp!
+}
+
+"""
+Streaming cursor of the table "authProviders"
+"""
+input authProviders_streamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: authProviders_streamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input authProviders_streamCursorValueInput {
+  id: String
+}
+
+"""
+User refresh tokens. Hasura auth uses them to rotate new access tokens as long as the refresh token is not expired. Don't modify its structure as Hasura Auth relies on it to function properly.
+"""
+type authRefreshTokens {
+  createdAt: timestamptz!
+  expiresAt: timestamptz!
+  refreshToken: uuid!
+
+  """An object relationship"""
+  user: users!
+  userId: uuid!
+}
+
+"""
+aggregated selection of "auth.refresh_tokens"
+"""
+type authRefreshTokensAggregate {
+  aggregate: authRefreshTokensAggregateFields
+  nodes: [authRefreshTokens!]!
+}
+
+"""
+aggregate fields of "auth.refresh_tokens"
+"""
+type authRefreshTokensAggregateFields {
+  count(columns: [authRefreshTokensSelectColumn!], distinct: Boolean): Int!
+  max: authRefreshTokensMaxFields
+  min: authRefreshTokensMinFields
+}
+
+"""
+order by aggregate values of table "auth.refresh_tokens"
+"""
+input authRefreshTokensAggregateOrderBy {
+  count: OrderBy
+  max: authRefreshTokens_max_order_by
+  min: authRefreshTokens_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "auth.refresh_tokens"
+"""
+input authRefreshTokensArrRelInsertInput {
+  data: [authRefreshTokensInsertInput!]!
+
+  """upsert condition"""
+  onConflict: authRefreshTokensOnConflict
+}
+
+"""
+Boolean expression to filter rows from the table "auth.refresh_tokens". All fields are combined with a logical 'AND'.
+"""
+input authRefreshTokensBoolExp {
+  _and: [authRefreshTokensBoolExp!]
+  _not: authRefreshTokensBoolExp
+  _or: [authRefreshTokensBoolExp!]
+  createdAt: TimestamptzComparisonExp
+  expiresAt: TimestamptzComparisonExp
+  refreshToken: UuidComparisonExp
+  user: usersBoolExp
+  userId: UuidComparisonExp
+}
+
+"""
+unique or primary key constraints on table "auth.refresh_tokens"
+"""
+enum authRefreshTokensConstraint {
+  """
+  unique or primary key constraint on columns "refresh_token"
+  """
+  refresh_tokens_pkey
+}
+
+"""
+input type for inserting data into table "auth.refresh_tokens"
+"""
+input authRefreshTokensInsertInput {
+  createdAt: timestamptz
+  expiresAt: timestamptz
+  refreshToken: uuid
+  user: usersObjRelInsertInput
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type authRefreshTokensMaxFields {
+  createdAt: timestamptz
+  expiresAt: timestamptz
+  refreshToken: uuid
+  userId: uuid
+}
+
+"""aggregate min on columns"""
+type authRefreshTokensMinFields {
+  createdAt: timestamptz
+  expiresAt: timestamptz
+  refreshToken: uuid
+  userId: uuid
+}
+
+"""
+response of any mutation on the table "auth.refresh_tokens"
+"""
+type authRefreshTokensMutationResponse {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [authRefreshTokens!]!
+}
+
+"""
+on_conflict condition type for table "auth.refresh_tokens"
+"""
+input authRefreshTokensOnConflict {
+  constraint: authRefreshTokensConstraint!
+  update_columns: [authRefreshTokensUpdateColumn!]! = []
+  where: authRefreshTokensBoolExp
+}
+
+"""Ordering options when selecting data from "auth.refresh_tokens"."""
+input authRefreshTokensOrderBy {
+  createdAt: OrderBy
+  expiresAt: OrderBy
+  refreshToken: OrderBy
+  user: usersOrderBy
+  userId: OrderBy
+}
+
+"""primary key columns input for table: auth.refresh_tokens"""
+input authRefreshTokensPkColumnsInput {
+  refreshToken: uuid!
+}
+
+"""
+select columns of table "auth.refresh_tokens"
+"""
+enum authRefreshTokensSelectColumn {
+  """column name"""
+  createdAt
+
+  """column name"""
+  expiresAt
+
+  """column name"""
+  refreshToken
+
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "auth.refresh_tokens"
+"""
+input authRefreshTokensSetInput {
+  createdAt: timestamptz
+  expiresAt: timestamptz
+  refreshToken: uuid
+  userId: uuid
+}
+
+"""
+update columns of table "auth.refresh_tokens"
+"""
+enum authRefreshTokensUpdateColumn {
+  """column name"""
+  createdAt
+
+  """column name"""
+  expiresAt
+
+  """column name"""
+  refreshToken
+
+  """column name"""
+  userId
+}
+
+input authRefreshTokensUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: authRefreshTokensSetInput
+  where: authRefreshTokensBoolExp!
+}
+
+"""
+order by max() on columns of table "auth.refresh_tokens"
+"""
+input authRefreshTokens_max_order_by {
+  createdAt: OrderBy
+  expiresAt: OrderBy
+  refreshToken: OrderBy
+  userId: OrderBy
+}
+
+"""
+order by min() on columns of table "auth.refresh_tokens"
+"""
+input authRefreshTokens_min_order_by {
+  createdAt: OrderBy
+  expiresAt: OrderBy
+  refreshToken: OrderBy
+  userId: OrderBy
+}
+
+"""
+Streaming cursor of the table "authRefreshTokens"
+"""
+input authRefreshTokens_streamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: authRefreshTokens_streamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input authRefreshTokens_streamCursorValueInput {
+  createdAt: timestamptz
+  expiresAt: timestamptz
+  refreshToken: uuid
+  userId: uuid
+}
+
+"""
+Persistent Hasura roles for users. Don't modify its structure as Hasura Auth relies on it to function properly.
+"""
+type authRoles {
+  role: String!
+
+  """An array relationship"""
+  userRoles(
+    """distinct select on columns"""
+    distinctOn: [authUserRolesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserRolesOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserRolesBoolExp
+  ): [authUserRoles!]!
+
+  """An aggregate relationship"""
+  userRolesAggregate(
+    """distinct select on columns"""
+    distinctOn: [authUserRolesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserRolesOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserRolesBoolExp
+  ): authUserRolesAggregate!
+
+  """An array relationship"""
+  usersByDefaultRole(
+    """distinct select on columns"""
+    distinctOn: [usersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [usersOrderBy!]
+
+    """filter the rows returned"""
+    where: usersBoolExp
+  ): [users!]!
+
+  """An aggregate relationship"""
+  usersByDefaultRoleAggregate(
+    """distinct select on columns"""
+    distinctOn: [usersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [usersOrderBy!]
+
+    """filter the rows returned"""
+    where: usersBoolExp
+  ): usersAggregate!
+}
+
+"""
+aggregated selection of "auth.roles"
+"""
+type authRolesAggregate {
+  aggregate: authRolesAggregateFields
+  nodes: [authRoles!]!
+}
+
+"""
+aggregate fields of "auth.roles"
+"""
+type authRolesAggregateFields {
+  count(columns: [authRolesSelectColumn!], distinct: Boolean): Int!
+  max: authRolesMaxFields
+  min: authRolesMinFields
+}
+
+"""
+Boolean expression to filter rows from the table "auth.roles". All fields are combined with a logical 'AND'.
+"""
+input authRolesBoolExp {
+  _and: [authRolesBoolExp!]
+  _not: authRolesBoolExp
+  _or: [authRolesBoolExp!]
+  role: StringComparisonExp
+  userRoles: authUserRolesBoolExp
+  usersByDefaultRole: usersBoolExp
+}
+
+"""
+unique or primary key constraints on table "auth.roles"
+"""
+enum authRolesConstraint {
+  """
+  unique or primary key constraint on columns "role"
+  """
+  roles_pkey
+}
+
+"""
+input type for inserting data into table "auth.roles"
+"""
+input authRolesInsertInput {
+  role: String
+  userRoles: authUserRolesArrRelInsertInput
+  usersByDefaultRole: usersArrRelInsertInput
+}
+
+"""aggregate max on columns"""
+type authRolesMaxFields {
+  role: String
+}
+
+"""aggregate min on columns"""
+type authRolesMinFields {
+  role: String
+}
+
+"""
+response of any mutation on the table "auth.roles"
+"""
+type authRolesMutationResponse {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [authRoles!]!
+}
+
+"""
+input type for inserting object relation for remote table "auth.roles"
+"""
+input authRolesObjRelInsertInput {
+  data: authRolesInsertInput!
+
+  """upsert condition"""
+  onConflict: authRolesOnConflict
+}
+
+"""
+on_conflict condition type for table "auth.roles"
+"""
+input authRolesOnConflict {
+  constraint: authRolesConstraint!
+  update_columns: [authRolesUpdateColumn!]! = []
+  where: authRolesBoolExp
+}
+
+"""Ordering options when selecting data from "auth.roles"."""
+input authRolesOrderBy {
+  role: OrderBy
+  userRolesAggregate: authUserRolesAggregateOrderBy
+  usersByDefaultRoleAggregate: usersAggregateOrderBy
+}
+
+"""primary key columns input for table: auth.roles"""
+input authRolesPkColumnsInput {
+  role: String!
+}
+
+"""
+select columns of table "auth.roles"
+"""
+enum authRolesSelectColumn {
+  """column name"""
+  role
+}
+
+"""
+input type for updating data in table "auth.roles"
+"""
+input authRolesSetInput {
+  role: String
+}
+
+"""
+update columns of table "auth.roles"
+"""
+enum authRolesUpdateColumn {
+  """column name"""
+  role
+}
+
+input authRolesUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: authRolesSetInput
+  where: authRolesBoolExp!
+}
+
+"""
+Streaming cursor of the table "authRoles"
+"""
+input authRoles_streamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: authRoles_streamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input authRoles_streamCursorValueInput {
+  role: String
+}
+
+"""
+User webauthn authenticators. Don't modify its structure as Hasura Auth relies on it to function properly.
+"""
+type authUserAuthenticators {
+  counter: bigint!
+  credentialId: String!
+  credentialPublicKey: bytea
+  id: uuid!
+  transports: String!
+
+  """An object relationship"""
+  user: users!
+  userId: uuid!
+}
+
+"""
+aggregated selection of "auth.user_authenticators"
+"""
+type authUserAuthenticatorsAggregate {
+  aggregate: authUserAuthenticatorsAggregateFields
+  nodes: [authUserAuthenticators!]!
+}
+
+"""
+aggregate fields of "auth.user_authenticators"
+"""
+type authUserAuthenticatorsAggregateFields {
+  avg: authUserAuthenticatorsAvgFields
+  count(columns: [authUserAuthenticatorsSelectColumn!], distinct: Boolean): Int!
+  max: authUserAuthenticatorsMaxFields
+  min: authUserAuthenticatorsMinFields
+  stddev: authUserAuthenticatorsStddevFields
+  stddevPop: authUserAuthenticatorsStddev_popFields
+  stddevSamp: authUserAuthenticatorsStddev_sampFields
+  sum: authUserAuthenticatorsSumFields
+  varPop: authUserAuthenticatorsVar_popFields
+  varSamp: authUserAuthenticatorsVar_sampFields
+  variance: authUserAuthenticatorsVarianceFields
+}
+
+"""
+order by aggregate values of table "auth.user_authenticators"
+"""
+input authUserAuthenticatorsAggregateOrderBy {
+  avg: authUserAuthenticators_avg_order_by
+  count: OrderBy
+  max: authUserAuthenticators_max_order_by
+  min: authUserAuthenticators_min_order_by
+  stddev: authUserAuthenticators_stddev_order_by
+  stddev_pop: authUserAuthenticators_stddev_pop_order_by
+  stddev_samp: authUserAuthenticators_stddev_samp_order_by
+  sum: authUserAuthenticators_sum_order_by
+  var_pop: authUserAuthenticators_var_pop_order_by
+  var_samp: authUserAuthenticators_var_samp_order_by
+  variance: authUserAuthenticators_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "auth.user_authenticators"
+"""
+input authUserAuthenticatorsArrRelInsertInput {
+  data: [authUserAuthenticatorsInsertInput!]!
+
+  """upsert condition"""
+  onConflict: authUserAuthenticatorsOnConflict
+}
+
+"""aggregate avg on columns"""
+type authUserAuthenticatorsAvgFields {
+  counter: Float
+}
+
+"""
+Boolean expression to filter rows from the table "auth.user_authenticators". All fields are combined with a logical 'AND'.
+"""
+input authUserAuthenticatorsBoolExp {
+  _and: [authUserAuthenticatorsBoolExp!]
+  _not: authUserAuthenticatorsBoolExp
+  _or: [authUserAuthenticatorsBoolExp!]
+  counter: BigintComparisonExp
+  credentialId: StringComparisonExp
+  credentialPublicKey: ByteaComparisonExp
+  id: UuidComparisonExp
+  transports: StringComparisonExp
+  user: usersBoolExp
+  userId: UuidComparisonExp
+}
+
+"""
+unique or primary key constraints on table "auth.user_authenticators"
+"""
+enum authUserAuthenticatorsConstraint {
+  """
+  unique or primary key constraint on columns "credential_id"
+  """
+  user_authenticators_credential_id_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  user_authenticators_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "auth.user_authenticators"
+"""
+input authUserAuthenticatorsIncInput {
+  counter: bigint
+}
+
+"""
+input type for inserting data into table "auth.user_authenticators"
+"""
+input authUserAuthenticatorsInsertInput {
+  counter: bigint
+  credentialId: String
+  credentialPublicKey: bytea
+  id: uuid
+  transports: String
+  user: usersObjRelInsertInput
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type authUserAuthenticatorsMaxFields {
+  counter: bigint
+  credentialId: String
+  id: uuid
+  transports: String
+  userId: uuid
+}
+
+"""aggregate min on columns"""
+type authUserAuthenticatorsMinFields {
+  counter: bigint
+  credentialId: String
+  id: uuid
+  transports: String
+  userId: uuid
+}
+
+"""
+response of any mutation on the table "auth.user_authenticators"
+"""
+type authUserAuthenticatorsMutationResponse {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [authUserAuthenticators!]!
+}
+
+"""
+on_conflict condition type for table "auth.user_authenticators"
+"""
+input authUserAuthenticatorsOnConflict {
+  constraint: authUserAuthenticatorsConstraint!
+  update_columns: [authUserAuthenticatorsUpdateColumn!]! = []
+  where: authUserAuthenticatorsBoolExp
+}
+
+"""Ordering options when selecting data from "auth.user_authenticators"."""
+input authUserAuthenticatorsOrderBy {
+  counter: OrderBy
+  credentialId: OrderBy
+  credentialPublicKey: OrderBy
+  id: OrderBy
+  transports: OrderBy
+  user: usersOrderBy
+  userId: OrderBy
+}
+
+"""primary key columns input for table: auth.user_authenticators"""
+input authUserAuthenticatorsPkColumnsInput {
+  id: uuid!
+}
+
+"""
+select columns of table "auth.user_authenticators"
+"""
+enum authUserAuthenticatorsSelectColumn {
+  """column name"""
+  counter
+
+  """column name"""
+  credentialId
+
+  """column name"""
+  credentialPublicKey
+
+  """column name"""
+  id
+
+  """column name"""
+  transports
+
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "auth.user_authenticators"
+"""
+input authUserAuthenticatorsSetInput {
+  counter: bigint
+  credentialId: String
+  credentialPublicKey: bytea
+  id: uuid
+  transports: String
+  userId: uuid
+}
+
+"""aggregate stddev on columns"""
+type authUserAuthenticatorsStddevFields {
+  counter: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type authUserAuthenticatorsStddev_popFields {
+  counter: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type authUserAuthenticatorsStddev_sampFields {
+  counter: Float
+}
+
+"""aggregate sum on columns"""
+type authUserAuthenticatorsSumFields {
+  counter: bigint
+}
+
+"""
+update columns of table "auth.user_authenticators"
+"""
+enum authUserAuthenticatorsUpdateColumn {
+  """column name"""
+  counter
+
+  """column name"""
+  credentialId
+
+  """column name"""
+  credentialPublicKey
+
+  """column name"""
+  id
+
+  """column name"""
+  transports
+
+  """column name"""
+  userId
+}
+
+input authUserAuthenticatorsUpdates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: authUserAuthenticatorsIncInput
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: authUserAuthenticatorsSetInput
+  where: authUserAuthenticatorsBoolExp!
+}
+
+"""aggregate var_pop on columns"""
+type authUserAuthenticatorsVar_popFields {
+  counter: Float
+}
+
+"""aggregate var_samp on columns"""
+type authUserAuthenticatorsVar_sampFields {
+  counter: Float
+}
+
+"""aggregate variance on columns"""
+type authUserAuthenticatorsVarianceFields {
+  counter: Float
+}
+
+"""
+order by avg() on columns of table "auth.user_authenticators"
+"""
+input authUserAuthenticators_avg_order_by {
+  counter: OrderBy
+}
+
+"""
+order by max() on columns of table "auth.user_authenticators"
+"""
+input authUserAuthenticators_max_order_by {
+  counter: OrderBy
+  credentialId: OrderBy
+  id: OrderBy
+  transports: OrderBy
+  userId: OrderBy
+}
+
+"""
+order by min() on columns of table "auth.user_authenticators"
+"""
+input authUserAuthenticators_min_order_by {
+  counter: OrderBy
+  credentialId: OrderBy
+  id: OrderBy
+  transports: OrderBy
+  userId: OrderBy
+}
+
+"""
+order by stddev() on columns of table "auth.user_authenticators"
+"""
+input authUserAuthenticators_stddev_order_by {
+  counter: OrderBy
+}
+
+"""
+order by stddev_pop() on columns of table "auth.user_authenticators"
+"""
+input authUserAuthenticators_stddev_pop_order_by {
+  counter: OrderBy
+}
+
+"""
+order by stddev_samp() on columns of table "auth.user_authenticators"
+"""
+input authUserAuthenticators_stddev_samp_order_by {
+  counter: OrderBy
+}
+
+"""
+Streaming cursor of the table "authUserAuthenticators"
+"""
+input authUserAuthenticators_streamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: authUserAuthenticators_streamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input authUserAuthenticators_streamCursorValueInput {
+  counter: bigint
+  credentialId: String
+  credentialPublicKey: bytea
+  id: uuid
+  transports: String
+  userId: uuid
+}
+
+"""
+order by sum() on columns of table "auth.user_authenticators"
+"""
+input authUserAuthenticators_sum_order_by {
+  counter: OrderBy
+}
+
+"""
+order by var_pop() on columns of table "auth.user_authenticators"
+"""
+input authUserAuthenticators_var_pop_order_by {
+  counter: OrderBy
+}
+
+"""
+order by var_samp() on columns of table "auth.user_authenticators"
+"""
+input authUserAuthenticators_var_samp_order_by {
+  counter: OrderBy
+}
+
+"""
+order by variance() on columns of table "auth.user_authenticators"
+"""
+input authUserAuthenticators_variance_order_by {
+  counter: OrderBy
+}
+
+"""
+Active providers for a given user. Don't modify its structure as Hasura Auth relies on it to function properly.
+"""
+type authUserProviders {
+  accessToken: String!
+  createdAt: timestamptz!
+  id: uuid!
+
+  """An object relationship"""
+  provider: authProviders!
+  providerId: String!
+  providerUserId: String!
+  refreshToken: String
+  updatedAt: timestamptz!
+
+  """An object relationship"""
+  user: users!
+  userId: uuid!
+}
+
+"""
+aggregated selection of "auth.user_providers"
+"""
+type authUserProvidersAggregate {
+  aggregate: authUserProvidersAggregateFields
+  nodes: [authUserProviders!]!
+}
+
+"""
+aggregate fields of "auth.user_providers"
+"""
+type authUserProvidersAggregateFields {
+  count(columns: [authUserProvidersSelectColumn!], distinct: Boolean): Int!
+  max: authUserProvidersMaxFields
+  min: authUserProvidersMinFields
+}
+
+"""
+order by aggregate values of table "auth.user_providers"
+"""
+input authUserProvidersAggregateOrderBy {
+  count: OrderBy
+  max: authUserProviders_max_order_by
+  min: authUserProviders_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "auth.user_providers"
+"""
+input authUserProvidersArrRelInsertInput {
+  data: [authUserProvidersInsertInput!]!
+
+  """upsert condition"""
+  onConflict: authUserProvidersOnConflict
+}
+
+"""
+Boolean expression to filter rows from the table "auth.user_providers". All fields are combined with a logical 'AND'.
+"""
+input authUserProvidersBoolExp {
+  _and: [authUserProvidersBoolExp!]
+  _not: authUserProvidersBoolExp
+  _or: [authUserProvidersBoolExp!]
+  accessToken: StringComparisonExp
+  createdAt: TimestamptzComparisonExp
+  id: UuidComparisonExp
+  provider: authProvidersBoolExp
+  providerId: StringComparisonExp
+  providerUserId: StringComparisonExp
+  refreshToken: StringComparisonExp
+  updatedAt: TimestamptzComparisonExp
+  user: usersBoolExp
+  userId: UuidComparisonExp
+}
+
+"""
+unique or primary key constraints on table "auth.user_providers"
+"""
+enum authUserProvidersConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  user_providers_pkey
+
+  """
+  unique or primary key constraint on columns "provider_id", "provider_user_id"
+  """
+  user_providers_provider_id_provider_user_id_key
+
+  """
+  unique or primary key constraint on columns "provider_id", "user_id"
+  """
+  user_providers_user_id_provider_id_key
+}
+
+"""
+input type for inserting data into table "auth.user_providers"
+"""
+input authUserProvidersInsertInput {
+  accessToken: String
+  createdAt: timestamptz
+  id: uuid
+  provider: authProvidersObjRelInsertInput
+  providerId: String
+  providerUserId: String
+  refreshToken: String
+  updatedAt: timestamptz
+  user: usersObjRelInsertInput
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type authUserProvidersMaxFields {
+  accessToken: String
+  createdAt: timestamptz
+  id: uuid
+  providerId: String
+  providerUserId: String
+  refreshToken: String
+  updatedAt: timestamptz
+  userId: uuid
+}
+
+"""aggregate min on columns"""
+type authUserProvidersMinFields {
+  accessToken: String
+  createdAt: timestamptz
+  id: uuid
+  providerId: String
+  providerUserId: String
+  refreshToken: String
+  updatedAt: timestamptz
+  userId: uuid
+}
+
+"""
+response of any mutation on the table "auth.user_providers"
+"""
+type authUserProvidersMutationResponse {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [authUserProviders!]!
+}
+
+"""
+on_conflict condition type for table "auth.user_providers"
+"""
+input authUserProvidersOnConflict {
+  constraint: authUserProvidersConstraint!
+  update_columns: [authUserProvidersUpdateColumn!]! = []
+  where: authUserProvidersBoolExp
+}
+
+"""Ordering options when selecting data from "auth.user_providers"."""
+input authUserProvidersOrderBy {
+  accessToken: OrderBy
+  createdAt: OrderBy
+  id: OrderBy
+  provider: authProvidersOrderBy
+  providerId: OrderBy
+  providerUserId: OrderBy
+  refreshToken: OrderBy
+  updatedAt: OrderBy
+  user: usersOrderBy
+  userId: OrderBy
+}
+
+"""primary key columns input for table: auth.user_providers"""
+input authUserProvidersPkColumnsInput {
+  id: uuid!
+}
+
+"""
+select columns of table "auth.user_providers"
+"""
+enum authUserProvidersSelectColumn {
+  """column name"""
+  accessToken
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  providerId
+
+  """column name"""
+  providerUserId
+
+  """column name"""
+  refreshToken
+
+  """column name"""
+  updatedAt
+
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "auth.user_providers"
+"""
+input authUserProvidersSetInput {
+  accessToken: String
+  createdAt: timestamptz
+  id: uuid
+  providerId: String
+  providerUserId: String
+  refreshToken: String
+  updatedAt: timestamptz
+  userId: uuid
+}
+
+"""
+update columns of table "auth.user_providers"
+"""
+enum authUserProvidersUpdateColumn {
+  """column name"""
+  accessToken
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  providerId
+
+  """column name"""
+  providerUserId
+
+  """column name"""
+  refreshToken
+
+  """column name"""
+  updatedAt
+
+  """column name"""
+  userId
+}
+
+input authUserProvidersUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: authUserProvidersSetInput
+  where: authUserProvidersBoolExp!
+}
+
+"""
+order by max() on columns of table "auth.user_providers"
+"""
+input authUserProviders_max_order_by {
+  accessToken: OrderBy
+  createdAt: OrderBy
+  id: OrderBy
+  providerId: OrderBy
+  providerUserId: OrderBy
+  refreshToken: OrderBy
+  updatedAt: OrderBy
+  userId: OrderBy
+}
+
+"""
+order by min() on columns of table "auth.user_providers"
+"""
+input authUserProviders_min_order_by {
+  accessToken: OrderBy
+  createdAt: OrderBy
+  id: OrderBy
+  providerId: OrderBy
+  providerUserId: OrderBy
+  refreshToken: OrderBy
+  updatedAt: OrderBy
+  userId: OrderBy
+}
+
+"""
+Streaming cursor of the table "authUserProviders"
+"""
+input authUserProviders_streamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: authUserProviders_streamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input authUserProviders_streamCursorValueInput {
+  accessToken: String
+  createdAt: timestamptz
+  id: uuid
+  providerId: String
+  providerUserId: String
+  refreshToken: String
+  updatedAt: timestamptz
+  userId: uuid
+}
+
+"""
+Roles of users. Don't modify its structure as Hasura Auth relies on it to function properly.
+"""
+type authUserRoles {
+  createdAt: timestamptz!
+  id: uuid!
+  role: String!
+
+  """An object relationship"""
+  roleByRole: authRoles!
+
+  """An object relationship"""
+  user: users!
+  userId: uuid!
+}
+
+"""
+aggregated selection of "auth.user_roles"
+"""
+type authUserRolesAggregate {
+  aggregate: authUserRolesAggregateFields
+  nodes: [authUserRoles!]!
+}
+
+"""
+aggregate fields of "auth.user_roles"
+"""
+type authUserRolesAggregateFields {
+  count(columns: [authUserRolesSelectColumn!], distinct: Boolean): Int!
+  max: authUserRolesMaxFields
+  min: authUserRolesMinFields
+}
+
+"""
+order by aggregate values of table "auth.user_roles"
+"""
+input authUserRolesAggregateOrderBy {
+  count: OrderBy
+  max: authUserRoles_max_order_by
+  min: authUserRoles_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "auth.user_roles"
+"""
+input authUserRolesArrRelInsertInput {
+  data: [authUserRolesInsertInput!]!
+
+  """upsert condition"""
+  onConflict: authUserRolesOnConflict
+}
+
+"""
+Boolean expression to filter rows from the table "auth.user_roles". All fields are combined with a logical 'AND'.
+"""
+input authUserRolesBoolExp {
+  _and: [authUserRolesBoolExp!]
+  _not: authUserRolesBoolExp
+  _or: [authUserRolesBoolExp!]
+  createdAt: TimestamptzComparisonExp
+  id: UuidComparisonExp
+  role: StringComparisonExp
+  roleByRole: authRolesBoolExp
+  user: usersBoolExp
+  userId: UuidComparisonExp
+}
+
+"""
+unique or primary key constraints on table "auth.user_roles"
+"""
+enum authUserRolesConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  user_roles_pkey
+
+  """
+  unique or primary key constraint on columns "user_id", "role"
+  """
+  user_roles_user_id_role_key
+}
+
+"""
+input type for inserting data into table "auth.user_roles"
+"""
+input authUserRolesInsertInput {
+  createdAt: timestamptz
+  id: uuid
+  role: String
+  roleByRole: authRolesObjRelInsertInput
+  user: usersObjRelInsertInput
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type authUserRolesMaxFields {
+  createdAt: timestamptz
+  id: uuid
+  role: String
+  userId: uuid
+}
+
+"""aggregate min on columns"""
+type authUserRolesMinFields {
+  createdAt: timestamptz
+  id: uuid
+  role: String
+  userId: uuid
+}
+
+"""
+response of any mutation on the table "auth.user_roles"
+"""
+type authUserRolesMutationResponse {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [authUserRoles!]!
+}
+
+"""
+on_conflict condition type for table "auth.user_roles"
+"""
+input authUserRolesOnConflict {
+  constraint: authUserRolesConstraint!
+  update_columns: [authUserRolesUpdateColumn!]! = []
+  where: authUserRolesBoolExp
+}
+
+"""Ordering options when selecting data from "auth.user_roles"."""
+input authUserRolesOrderBy {
+  createdAt: OrderBy
+  id: OrderBy
+  role: OrderBy
+  roleByRole: authRolesOrderBy
+  user: usersOrderBy
+  userId: OrderBy
+}
+
+"""primary key columns input for table: auth.user_roles"""
+input authUserRolesPkColumnsInput {
+  id: uuid!
+}
+
+"""
+select columns of table "auth.user_roles"
+"""
+enum authUserRolesSelectColumn {
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  role
+
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "auth.user_roles"
+"""
+input authUserRolesSetInput {
+  createdAt: timestamptz
+  id: uuid
+  role: String
+  userId: uuid
+}
+
+"""
+update columns of table "auth.user_roles"
+"""
+enum authUserRolesUpdateColumn {
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  role
+
+  """column name"""
+  userId
+}
+
+input authUserRolesUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: authUserRolesSetInput
+  where: authUserRolesBoolExp!
+}
+
+"""
+order by max() on columns of table "auth.user_roles"
+"""
+input authUserRoles_max_order_by {
+  createdAt: OrderBy
+  id: OrderBy
+  role: OrderBy
+  userId: OrderBy
+}
+
+"""
+order by min() on columns of table "auth.user_roles"
+"""
+input authUserRoles_min_order_by {
+  createdAt: OrderBy
+  id: OrderBy
+  role: OrderBy
+  userId: OrderBy
+}
+
+"""
+Streaming cursor of the table "authUserRoles"
+"""
+input authUserRoles_streamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: authUserRoles_streamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input authUserRoles_streamCursorValueInput {
+  createdAt: timestamptz
+  id: uuid
+  role: String
+  userId: uuid
+}
+
+scalar bigint
+
+"""
+columns and relationships of "storage.buckets"
+"""
+type buckets {
+  cacheControl: String
+  createdAt: timestamptz!
+  downloadExpiration: Int!
+
+  """An array relationship"""
+  files(
+    """distinct select on columns"""
+    distinctOn: [filesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [filesOrderBy!]
+
+    """filter the rows returned"""
+    where: filesBoolExp
+  ): [files!]!
+
+  """An aggregate relationship"""
+  filesAggregate(
+    """distinct select on columns"""
+    distinctOn: [filesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [filesOrderBy!]
+
+    """filter the rows returned"""
+    where: filesBoolExp
+  ): filesAggregate!
+  id: String!
+  maxUploadFileSize: Int!
+  minUploadFileSize: Int!
+  presignedUrlsEnabled: Boolean!
+  updatedAt: timestamptz!
+}
+
+"""
+aggregated selection of "storage.buckets"
+"""
+type bucketsAggregate {
+  aggregate: bucketsAggregateFields
+  nodes: [buckets!]!
+}
+
+"""
+aggregate fields of "storage.buckets"
+"""
+type bucketsAggregateFields {
+  avg: bucketsAvgFields
+  count(columns: [bucketsSelectColumn!], distinct: Boolean): Int!
+  max: bucketsMaxFields
+  min: bucketsMinFields
+  stddev: bucketsStddevFields
+  stddevPop: bucketsStddev_popFields
+  stddevSamp: bucketsStddev_sampFields
+  sum: bucketsSumFields
+  varPop: bucketsVar_popFields
+  varSamp: bucketsVar_sampFields
+  variance: bucketsVarianceFields
+}
+
+"""aggregate avg on columns"""
+type bucketsAvgFields {
+  downloadExpiration: Float
+  maxUploadFileSize: Float
+  minUploadFileSize: Float
+}
+
+"""
+Boolean expression to filter rows from the table "storage.buckets". All fields are combined with a logical 'AND'.
+"""
+input bucketsBoolExp {
+  _and: [bucketsBoolExp!]
+  _not: bucketsBoolExp
+  _or: [bucketsBoolExp!]
+  cacheControl: StringComparisonExp
+  createdAt: TimestamptzComparisonExp
+  downloadExpiration: IntComparisonExp
+  files: filesBoolExp
+  id: StringComparisonExp
+  maxUploadFileSize: IntComparisonExp
+  minUploadFileSize: IntComparisonExp
+  presignedUrlsEnabled: BooleanComparisonExp
+  updatedAt: TimestamptzComparisonExp
+}
+
+"""
+unique or primary key constraints on table "storage.buckets"
+"""
+enum bucketsConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  buckets_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "storage.buckets"
+"""
+input bucketsIncInput {
+  downloadExpiration: Int
+  maxUploadFileSize: Int
+  minUploadFileSize: Int
+}
+
+"""
+input type for inserting data into table "storage.buckets"
+"""
+input bucketsInsertInput {
+  cacheControl: String
+  createdAt: timestamptz
+  downloadExpiration: Int
+  files: filesArrRelInsertInput
+  id: String
+  maxUploadFileSize: Int
+  minUploadFileSize: Int
+  presignedUrlsEnabled: Boolean
+  updatedAt: timestamptz
+}
+
+"""aggregate max on columns"""
+type bucketsMaxFields {
+  cacheControl: String
+  createdAt: timestamptz
+  downloadExpiration: Int
+  id: String
+  maxUploadFileSize: Int
+  minUploadFileSize: Int
+  updatedAt: timestamptz
+}
+
+"""aggregate min on columns"""
+type bucketsMinFields {
+  cacheControl: String
+  createdAt: timestamptz
+  downloadExpiration: Int
+  id: String
+  maxUploadFileSize: Int
+  minUploadFileSize: Int
+  updatedAt: timestamptz
+}
+
+"""
+response of any mutation on the table "storage.buckets"
+"""
+type bucketsMutationResponse {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [buckets!]!
+}
+
+"""
+input type for inserting object relation for remote table "storage.buckets"
+"""
+input bucketsObjRelInsertInput {
+  data: bucketsInsertInput!
+
+  """upsert condition"""
+  onConflict: bucketsOnConflict
+}
+
+"""
+on_conflict condition type for table "storage.buckets"
+"""
+input bucketsOnConflict {
+  constraint: bucketsConstraint!
+  update_columns: [bucketsUpdateColumn!]! = []
+  where: bucketsBoolExp
+}
+
+"""Ordering options when selecting data from "storage.buckets"."""
+input bucketsOrderBy {
+  cacheControl: OrderBy
+  createdAt: OrderBy
+  downloadExpiration: OrderBy
+  filesAggregate: filesAggregateOrderBy
+  id: OrderBy
+  maxUploadFileSize: OrderBy
+  minUploadFileSize: OrderBy
+  presignedUrlsEnabled: OrderBy
+  updatedAt: OrderBy
+}
+
+"""primary key columns input for table: storage.buckets"""
+input bucketsPkColumnsInput {
+  id: String!
+}
+
+"""
+select columns of table "storage.buckets"
+"""
+enum bucketsSelectColumn {
+  """column name"""
+  cacheControl
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  downloadExpiration
+
+  """column name"""
+  id
+
+  """column name"""
+  maxUploadFileSize
+
+  """column name"""
+  minUploadFileSize
+
+  """column name"""
+  presignedUrlsEnabled
+
+  """column name"""
+  updatedAt
+}
+
+"""
+input type for updating data in table "storage.buckets"
+"""
+input bucketsSetInput {
+  cacheControl: String
+  createdAt: timestamptz
+  downloadExpiration: Int
+  id: String
+  maxUploadFileSize: Int
+  minUploadFileSize: Int
+  presignedUrlsEnabled: Boolean
+  updatedAt: timestamptz
+}
+
+"""aggregate stddev on columns"""
+type bucketsStddevFields {
+  downloadExpiration: Float
+  maxUploadFileSize: Float
+  minUploadFileSize: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type bucketsStddev_popFields {
+  downloadExpiration: Float
+  maxUploadFileSize: Float
+  minUploadFileSize: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type bucketsStddev_sampFields {
+  downloadExpiration: Float
+  maxUploadFileSize: Float
+  minUploadFileSize: Float
+}
+
+"""aggregate sum on columns"""
+type bucketsSumFields {
+  downloadExpiration: Int
+  maxUploadFileSize: Int
+  minUploadFileSize: Int
+}
+
+"""
+update columns of table "storage.buckets"
+"""
+enum bucketsUpdateColumn {
+  """column name"""
+  cacheControl
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  downloadExpiration
+
+  """column name"""
+  id
+
+  """column name"""
+  maxUploadFileSize
+
+  """column name"""
+  minUploadFileSize
+
+  """column name"""
+  presignedUrlsEnabled
+
+  """column name"""
+  updatedAt
+}
+
+input bucketsUpdates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: bucketsIncInput
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: bucketsSetInput
+  where: bucketsBoolExp!
+}
+
+"""aggregate var_pop on columns"""
+type bucketsVar_popFields {
+  downloadExpiration: Float
+  maxUploadFileSize: Float
+  minUploadFileSize: Float
+}
+
+"""aggregate var_samp on columns"""
+type bucketsVar_sampFields {
+  downloadExpiration: Float
+  maxUploadFileSize: Float
+  minUploadFileSize: Float
+}
+
+"""aggregate variance on columns"""
+type bucketsVarianceFields {
+  downloadExpiration: Float
+  maxUploadFileSize: Float
+  minUploadFileSize: Float
+}
+
+"""
+Streaming cursor of the table "buckets"
+"""
+input buckets_streamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: buckets_streamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input buckets_streamCursorValueInput {
+  cacheControl: String
+  createdAt: timestamptz
+  downloadExpiration: Int
+  id: String
+  maxUploadFileSize: Int
+  minUploadFileSize: Int
+  presignedUrlsEnabled: Boolean
+  updatedAt: timestamptz
+}
+
+scalar bytea
+
+scalar citext
+
+"""
+columns and relationships of "storage.files"
+"""
+type files {
+  """An object relationship"""
+  bucket: buckets!
+  bucketId: String!
+  createdAt: timestamptz!
+  etag: String
+  id: uuid!
+  isUploaded: Boolean
+  mimeType: String
+  name: String
+  size: Int
+  updatedAt: timestamptz!
+  uploadedByUserId: uuid
+}
+
+"""
+aggregated selection of "storage.files"
+"""
+type filesAggregate {
+  aggregate: filesAggregateFields
+  nodes: [files!]!
+}
+
+"""
+aggregate fields of "storage.files"
+"""
+type filesAggregateFields {
+  avg: filesAvgFields
+  count(columns: [filesSelectColumn!], distinct: Boolean): Int!
+  max: filesMaxFields
+  min: filesMinFields
+  stddev: filesStddevFields
+  stddevPop: filesStddev_popFields
+  stddevSamp: filesStddev_sampFields
+  sum: filesSumFields
+  varPop: filesVar_popFields
+  varSamp: filesVar_sampFields
+  variance: filesVarianceFields
+}
+
+"""
+order by aggregate values of table "storage.files"
+"""
+input filesAggregateOrderBy {
+  avg: files_avg_order_by
+  count: OrderBy
+  max: files_max_order_by
+  min: files_min_order_by
+  stddev: files_stddev_order_by
+  stddev_pop: files_stddev_pop_order_by
+  stddev_samp: files_stddev_samp_order_by
+  sum: files_sum_order_by
+  var_pop: files_var_pop_order_by
+  var_samp: files_var_samp_order_by
+  variance: files_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "storage.files"
+"""
+input filesArrRelInsertInput {
+  data: [filesInsertInput!]!
+
+  """upsert condition"""
+  onConflict: filesOnConflict
+}
+
+"""aggregate avg on columns"""
+type filesAvgFields {
+  size: Float
+}
+
+"""
+Boolean expression to filter rows from the table "storage.files". All fields are combined with a logical 'AND'.
+"""
+input filesBoolExp {
+  _and: [filesBoolExp!]
+  _not: filesBoolExp
+  _or: [filesBoolExp!]
+  bucket: bucketsBoolExp
+  bucketId: StringComparisonExp
+  createdAt: TimestamptzComparisonExp
+  etag: StringComparisonExp
+  id: UuidComparisonExp
+  isUploaded: BooleanComparisonExp
+  mimeType: StringComparisonExp
+  name: StringComparisonExp
+  size: IntComparisonExp
+  updatedAt: TimestamptzComparisonExp
+  uploadedByUserId: UuidComparisonExp
+}
+
+"""
+unique or primary key constraints on table "storage.files"
+"""
+enum filesConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  files_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "storage.files"
+"""
+input filesIncInput {
+  size: Int
+}
+
+"""
+input type for inserting data into table "storage.files"
+"""
+input filesInsertInput {
+  bucket: bucketsObjRelInsertInput
+  bucketId: String
+  createdAt: timestamptz
+  etag: String
+  id: uuid
+  isUploaded: Boolean
+  mimeType: String
+  name: String
+  size: Int
+  updatedAt: timestamptz
+  uploadedByUserId: uuid
+}
+
+"""aggregate max on columns"""
+type filesMaxFields {
+  bucketId: String
+  createdAt: timestamptz
+  etag: String
+  id: uuid
+  mimeType: String
+  name: String
+  size: Int
+  updatedAt: timestamptz
+  uploadedByUserId: uuid
+}
+
+"""aggregate min on columns"""
+type filesMinFields {
+  bucketId: String
+  createdAt: timestamptz
+  etag: String
+  id: uuid
+  mimeType: String
+  name: String
+  size: Int
+  updatedAt: timestamptz
+  uploadedByUserId: uuid
+}
+
+"""
+response of any mutation on the table "storage.files"
+"""
+type filesMutationResponse {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [files!]!
+}
+
+"""
+on_conflict condition type for table "storage.files"
+"""
+input filesOnConflict {
+  constraint: filesConstraint!
+  update_columns: [filesUpdateColumn!]! = []
+  where: filesBoolExp
+}
+
+"""Ordering options when selecting data from "storage.files"."""
+input filesOrderBy {
+  bucket: bucketsOrderBy
+  bucketId: OrderBy
+  createdAt: OrderBy
+  etag: OrderBy
+  id: OrderBy
+  isUploaded: OrderBy
+  mimeType: OrderBy
+  name: OrderBy
+  size: OrderBy
+  updatedAt: OrderBy
+  uploadedByUserId: OrderBy
+}
+
+"""primary key columns input for table: storage.files"""
+input filesPkColumnsInput {
+  id: uuid!
+}
+
+"""
+select columns of table "storage.files"
+"""
+enum filesSelectColumn {
+  """column name"""
+  bucketId
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  etag
+
+  """column name"""
+  id
+
+  """column name"""
+  isUploaded
+
+  """column name"""
+  mimeType
+
+  """column name"""
+  name
+
+  """column name"""
+  size
+
+  """column name"""
+  updatedAt
+
+  """column name"""
+  uploadedByUserId
+}
+
+"""
+input type for updating data in table "storage.files"
+"""
+input filesSetInput {
+  bucketId: String
+  createdAt: timestamptz
+  etag: String
+  id: uuid
+  isUploaded: Boolean
+  mimeType: String
+  name: String
+  size: Int
+  updatedAt: timestamptz
+  uploadedByUserId: uuid
+}
+
+"""aggregate stddev on columns"""
+type filesStddevFields {
+  size: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type filesStddev_popFields {
+  size: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type filesStddev_sampFields {
+  size: Float
+}
+
+"""aggregate sum on columns"""
+type filesSumFields {
+  size: Int
+}
+
+"""
+update columns of table "storage.files"
+"""
+enum filesUpdateColumn {
+  """column name"""
+  bucketId
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  etag
+
+  """column name"""
+  id
+
+  """column name"""
+  isUploaded
+
+  """column name"""
+  mimeType
+
+  """column name"""
+  name
+
+  """column name"""
+  size
+
+  """column name"""
+  updatedAt
+
+  """column name"""
+  uploadedByUserId
+}
+
+input filesUpdates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: filesIncInput
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: filesSetInput
+  where: filesBoolExp!
+}
+
+"""aggregate var_pop on columns"""
+type filesVar_popFields {
+  size: Float
+}
+
+"""aggregate var_samp on columns"""
+type filesVar_sampFields {
+  size: Float
+}
+
+"""aggregate variance on columns"""
+type filesVarianceFields {
+  size: Float
+}
+
+"""
+order by avg() on columns of table "storage.files"
+"""
+input files_avg_order_by {
+  size: OrderBy
+}
+
+"""
+order by max() on columns of table "storage.files"
+"""
+input files_max_order_by {
+  bucketId: OrderBy
+  createdAt: OrderBy
+  etag: OrderBy
+  id: OrderBy
+  mimeType: OrderBy
+  name: OrderBy
+  size: OrderBy
+  updatedAt: OrderBy
+  uploadedByUserId: OrderBy
+}
+
+"""
+order by min() on columns of table "storage.files"
+"""
+input files_min_order_by {
+  bucketId: OrderBy
+  createdAt: OrderBy
+  etag: OrderBy
+  id: OrderBy
+  mimeType: OrderBy
+  name: OrderBy
+  size: OrderBy
+  updatedAt: OrderBy
+  uploadedByUserId: OrderBy
+}
+
+"""
+order by stddev() on columns of table "storage.files"
+"""
+input files_stddev_order_by {
+  size: OrderBy
+}
+
+"""
+order by stddev_pop() on columns of table "storage.files"
+"""
+input files_stddev_pop_order_by {
+  size: OrderBy
+}
+
+"""
+order by stddev_samp() on columns of table "storage.files"
+"""
+input files_stddev_samp_order_by {
+  size: OrderBy
+}
+
+"""
+Streaming cursor of the table "files"
+"""
+input files_streamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: files_streamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input files_streamCursorValueInput {
+  bucketId: String
+  createdAt: timestamptz
+  etag: String
+  id: uuid
+  isUploaded: Boolean
+  mimeType: String
+  name: String
+  size: Int
+  updatedAt: timestamptz
+  uploadedByUserId: uuid
+}
+
+"""
+order by sum() on columns of table "storage.files"
+"""
+input files_sum_order_by {
+  size: OrderBy
+}
+
+"""
+order by var_pop() on columns of table "storage.files"
+"""
+input files_var_pop_order_by {
+  size: OrderBy
+}
+
+"""
+order by var_samp() on columns of table "storage.files"
+"""
+input files_var_samp_order_by {
+  size: OrderBy
+}
+
+"""
+order by variance() on columns of table "storage.files"
+"""
+input files_variance_order_by {
+  size: OrderBy
+}
+
+scalar jsonb
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete single row from the table: "auth.providers"
+  """
+  deleteAuthProvider(id: String!): authProviders
+
+  """
+  delete single row from the table: "auth.provider_requests"
+  """
+  deleteAuthProviderRequest(id: uuid!): authProviderRequests
+
+  """
+  delete data from the table: "auth.provider_requests"
+  """
+  deleteAuthProviderRequests(
+    """filter the rows which have to be deleted"""
+    where: authProviderRequestsBoolExp!
+  ): authProviderRequestsMutationResponse
+
+  """
+  delete data from the table: "auth.providers"
+  """
+  deleteAuthProviders(
+    """filter the rows which have to be deleted"""
+    where: authProvidersBoolExp!
+  ): authProvidersMutationResponse
+
+  """
+  delete single row from the table: "auth.refresh_tokens"
+  """
+  deleteAuthRefreshToken(refreshToken: uuid!): authRefreshTokens
+
+  """
+  delete data from the table: "auth.refresh_tokens"
+  """
+  deleteAuthRefreshTokens(
+    """filter the rows which have to be deleted"""
+    where: authRefreshTokensBoolExp!
+  ): authRefreshTokensMutationResponse
+
+  """
+  delete single row from the table: "auth.roles"
+  """
+  deleteAuthRole(role: String!): authRoles
+
+  """
+  delete data from the table: "auth.roles"
+  """
+  deleteAuthRoles(
+    """filter the rows which have to be deleted"""
+    where: authRolesBoolExp!
+  ): authRolesMutationResponse
+
+  """
+  delete single row from the table: "auth.user_authenticators"
+  """
+  deleteAuthUserAuthenticator(id: uuid!): authUserAuthenticators
+
+  """
+  delete data from the table: "auth.user_authenticators"
+  """
+  deleteAuthUserAuthenticators(
+    """filter the rows which have to be deleted"""
+    where: authUserAuthenticatorsBoolExp!
+  ): authUserAuthenticatorsMutationResponse
+
+  """
+  delete single row from the table: "auth.user_providers"
+  """
+  deleteAuthUserProvider(id: uuid!): authUserProviders
+
+  """
+  delete data from the table: "auth.user_providers"
+  """
+  deleteAuthUserProviders(
+    """filter the rows which have to be deleted"""
+    where: authUserProvidersBoolExp!
+  ): authUserProvidersMutationResponse
+
+  """
+  delete single row from the table: "auth.user_roles"
+  """
+  deleteAuthUserRole(id: uuid!): authUserRoles
+
+  """
+  delete data from the table: "auth.user_roles"
+  """
+  deleteAuthUserRoles(
+    """filter the rows which have to be deleted"""
+    where: authUserRolesBoolExp!
+  ): authUserRolesMutationResponse
+
+  """
+  delete single row from the table: "storage.buckets"
+  """
+  deleteBucket(id: String!): buckets
+
+  """
+  delete data from the table: "storage.buckets"
+  """
+  deleteBuckets(
+    """filter the rows which have to be deleted"""
+    where: bucketsBoolExp!
+  ): bucketsMutationResponse
+
+  """
+  delete single row from the table: "storage.files"
+  """
+  deleteFile(id: uuid!): files
+
+  """
+  delete data from the table: "storage.files"
+  """
+  deleteFiles(
+    """filter the rows which have to be deleted"""
+    where: filesBoolExp!
+  ): filesMutationResponse
+
+  """
+  delete single row from the table: "auth.users"
+  """
+  deleteUser(id: uuid!): users
+
+  """
+  delete data from the table: "auth.users"
+  """
+  deleteUsers(
+    """filter the rows which have to be deleted"""
+    where: usersBoolExp!
+  ): usersMutationResponse
+
+  """
+  insert a single row into the table: "auth.providers"
+  """
+  insertAuthProvider(
+    """the row to be inserted"""
+    object: authProvidersInsertInput!
+
+    """upsert condition"""
+    onConflict: authProvidersOnConflict
+  ): authProviders
+
+  """
+  insert a single row into the table: "auth.provider_requests"
+  """
+  insertAuthProviderRequest(
+    """the row to be inserted"""
+    object: authProviderRequestsInsertInput!
+
+    """upsert condition"""
+    onConflict: authProviderRequestsOnConflict
+  ): authProviderRequests
+
+  """
+  insert data into the table: "auth.provider_requests"
+  """
+  insertAuthProviderRequests(
+    """the rows to be inserted"""
+    objects: [authProviderRequestsInsertInput!]!
+
+    """upsert condition"""
+    onConflict: authProviderRequestsOnConflict
+  ): authProviderRequestsMutationResponse
+
+  """
+  insert data into the table: "auth.providers"
+  """
+  insertAuthProviders(
+    """the rows to be inserted"""
+    objects: [authProvidersInsertInput!]!
+
+    """upsert condition"""
+    onConflict: authProvidersOnConflict
+  ): authProvidersMutationResponse
+
+  """
+  insert a single row into the table: "auth.refresh_tokens"
+  """
+  insertAuthRefreshToken(
+    """the row to be inserted"""
+    object: authRefreshTokensInsertInput!
+
+    """upsert condition"""
+    onConflict: authRefreshTokensOnConflict
+  ): authRefreshTokens
+
+  """
+  insert data into the table: "auth.refresh_tokens"
+  """
+  insertAuthRefreshTokens(
+    """the rows to be inserted"""
+    objects: [authRefreshTokensInsertInput!]!
+
+    """upsert condition"""
+    onConflict: authRefreshTokensOnConflict
+  ): authRefreshTokensMutationResponse
+
+  """
+  insert a single row into the table: "auth.roles"
+  """
+  insertAuthRole(
+    """the row to be inserted"""
+    object: authRolesInsertInput!
+
+    """upsert condition"""
+    onConflict: authRolesOnConflict
+  ): authRoles
+
+  """
+  insert data into the table: "auth.roles"
+  """
+  insertAuthRoles(
+    """the rows to be inserted"""
+    objects: [authRolesInsertInput!]!
+
+    """upsert condition"""
+    onConflict: authRolesOnConflict
+  ): authRolesMutationResponse
+
+  """
+  insert a single row into the table: "auth.user_authenticators"
+  """
+  insertAuthUserAuthenticator(
+    """the row to be inserted"""
+    object: authUserAuthenticatorsInsertInput!
+
+    """upsert condition"""
+    onConflict: authUserAuthenticatorsOnConflict
+  ): authUserAuthenticators
+
+  """
+  insert data into the table: "auth.user_authenticators"
+  """
+  insertAuthUserAuthenticators(
+    """the rows to be inserted"""
+    objects: [authUserAuthenticatorsInsertInput!]!
+
+    """upsert condition"""
+    onConflict: authUserAuthenticatorsOnConflict
+  ): authUserAuthenticatorsMutationResponse
+
+  """
+  insert a single row into the table: "auth.user_providers"
+  """
+  insertAuthUserProvider(
+    """the row to be inserted"""
+    object: authUserProvidersInsertInput!
+
+    """upsert condition"""
+    onConflict: authUserProvidersOnConflict
+  ): authUserProviders
+
+  """
+  insert data into the table: "auth.user_providers"
+  """
+  insertAuthUserProviders(
+    """the rows to be inserted"""
+    objects: [authUserProvidersInsertInput!]!
+
+    """upsert condition"""
+    onConflict: authUserProvidersOnConflict
+  ): authUserProvidersMutationResponse
+
+  """
+  insert a single row into the table: "auth.user_roles"
+  """
+  insertAuthUserRole(
+    """the row to be inserted"""
+    object: authUserRolesInsertInput!
+
+    """upsert condition"""
+    onConflict: authUserRolesOnConflict
+  ): authUserRoles
+
+  """
+  insert data into the table: "auth.user_roles"
+  """
+  insertAuthUserRoles(
+    """the rows to be inserted"""
+    objects: [authUserRolesInsertInput!]!
+
+    """upsert condition"""
+    onConflict: authUserRolesOnConflict
+  ): authUserRolesMutationResponse
+
+  """
+  insert a single row into the table: "storage.buckets"
+  """
+  insertBucket(
+    """the row to be inserted"""
+    object: bucketsInsertInput!
+
+    """upsert condition"""
+    onConflict: bucketsOnConflict
+  ): buckets
+
+  """
+  insert data into the table: "storage.buckets"
+  """
+  insertBuckets(
+    """the rows to be inserted"""
+    objects: [bucketsInsertInput!]!
+
+    """upsert condition"""
+    onConflict: bucketsOnConflict
+  ): bucketsMutationResponse
+
+  """
+  insert a single row into the table: "storage.files"
+  """
+  insertFile(
+    """the row to be inserted"""
+    object: filesInsertInput!
+
+    """upsert condition"""
+    onConflict: filesOnConflict
+  ): files
+
+  """
+  insert data into the table: "storage.files"
+  """
+  insertFiles(
+    """the rows to be inserted"""
+    objects: [filesInsertInput!]!
+
+    """upsert condition"""
+    onConflict: filesOnConflict
+  ): filesMutationResponse
+
+  """
+  insert a single row into the table: "auth.users"
+  """
+  insertUser(
+    """the row to be inserted"""
+    object: usersInsertInput!
+
+    """upsert condition"""
+    onConflict: usersOnConflict
+  ): users
+
+  """
+  insert data into the table: "auth.users"
+  """
+  insertUsers(
+    """the rows to be inserted"""
+    objects: [usersInsertInput!]!
+
+    """upsert condition"""
+    onConflict: usersOnConflict
+  ): usersMutationResponse
+
+  """
+  update single row of the table: "auth.providers"
+  """
+  updateAuthProvider(
+    """sets the columns of the filtered rows to the given values"""
+    _set: authProvidersSetInput
+    pk_columns: authProvidersPkColumnsInput!
+  ): authProviders
+
+  """
+  update single row of the table: "auth.provider_requests"
+  """
+  updateAuthProviderRequest(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: authProviderRequestsAppendInput
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _deleteAtPath: authProviderRequestsDeleteAtPathInput
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _deleteElem: authProviderRequestsDeleteElemInput
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _deleteKey: authProviderRequestsDeleteKeyInput
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: authProviderRequestsPrependInput
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: authProviderRequestsSetInput
+    pk_columns: authProviderRequestsPkColumnsInput!
+  ): authProviderRequests
+
+  """
+  update data of the table: "auth.provider_requests"
+  """
+  updateAuthProviderRequests(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: authProviderRequestsAppendInput
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _deleteAtPath: authProviderRequestsDeleteAtPathInput
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _deleteElem: authProviderRequestsDeleteElemInput
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _deleteKey: authProviderRequestsDeleteKeyInput
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: authProviderRequestsPrependInput
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: authProviderRequestsSetInput
+
+    """filter the rows which have to be updated"""
+    where: authProviderRequestsBoolExp!
+  ): authProviderRequestsMutationResponse
+
+  """
+  update multiples rows of table: "auth.provider_requests"
+  """
+  updateAuthProviderRequestsMany(
+    """updates to execute, in order"""
+    updates: [authProviderRequestsUpdates!]!
+  ): [authProviderRequestsMutationResponse]
+
+  """
+  update data of the table: "auth.providers"
+  """
+  updateAuthProviders(
+    """sets the columns of the filtered rows to the given values"""
+    _set: authProvidersSetInput
+
+    """filter the rows which have to be updated"""
+    where: authProvidersBoolExp!
+  ): authProvidersMutationResponse
+
+  """
+  update multiples rows of table: "auth.providers"
+  """
+  updateAuthProvidersMany(
+    """updates to execute, in order"""
+    updates: [authProvidersUpdates!]!
+  ): [authProvidersMutationResponse]
+
+  """
+  update single row of the table: "auth.refresh_tokens"
+  """
+  updateAuthRefreshToken(
+    """sets the columns of the filtered rows to the given values"""
+    _set: authRefreshTokensSetInput
+    pk_columns: authRefreshTokensPkColumnsInput!
+  ): authRefreshTokens
+
+  """
+  update data of the table: "auth.refresh_tokens"
+  """
+  updateAuthRefreshTokens(
+    """sets the columns of the filtered rows to the given values"""
+    _set: authRefreshTokensSetInput
+
+    """filter the rows which have to be updated"""
+    where: authRefreshTokensBoolExp!
+  ): authRefreshTokensMutationResponse
+
+  """
+  update multiples rows of table: "auth.refresh_tokens"
+  """
+  updateAuthRefreshTokensMany(
+    """updates to execute, in order"""
+    updates: [authRefreshTokensUpdates!]!
+  ): [authRefreshTokensMutationResponse]
+
+  """
+  update single row of the table: "auth.roles"
+  """
+  updateAuthRole(
+    """sets the columns of the filtered rows to the given values"""
+    _set: authRolesSetInput
+    pk_columns: authRolesPkColumnsInput!
+  ): authRoles
+
+  """
+  update data of the table: "auth.roles"
+  """
+  updateAuthRoles(
+    """sets the columns of the filtered rows to the given values"""
+    _set: authRolesSetInput
+
+    """filter the rows which have to be updated"""
+    where: authRolesBoolExp!
+  ): authRolesMutationResponse
+
+  """
+  update multiples rows of table: "auth.roles"
+  """
+  updateAuthRolesMany(
+    """updates to execute, in order"""
+    updates: [authRolesUpdates!]!
+  ): [authRolesMutationResponse]
+
+  """
+  update single row of the table: "auth.user_authenticators"
+  """
+  updateAuthUserAuthenticator(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: authUserAuthenticatorsIncInput
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: authUserAuthenticatorsSetInput
+    pk_columns: authUserAuthenticatorsPkColumnsInput!
+  ): authUserAuthenticators
+
+  """
+  update data of the table: "auth.user_authenticators"
+  """
+  updateAuthUserAuthenticators(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: authUserAuthenticatorsIncInput
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: authUserAuthenticatorsSetInput
+
+    """filter the rows which have to be updated"""
+    where: authUserAuthenticatorsBoolExp!
+  ): authUserAuthenticatorsMutationResponse
+
+  """
+  update multiples rows of table: "auth.user_authenticators"
+  """
+  updateAuthUserAuthenticatorsMany(
+    """updates to execute, in order"""
+    updates: [authUserAuthenticatorsUpdates!]!
+  ): [authUserAuthenticatorsMutationResponse]
+
+  """
+  update single row of the table: "auth.user_providers"
+  """
+  updateAuthUserProvider(
+    """sets the columns of the filtered rows to the given values"""
+    _set: authUserProvidersSetInput
+    pk_columns: authUserProvidersPkColumnsInput!
+  ): authUserProviders
+
+  """
+  update data of the table: "auth.user_providers"
+  """
+  updateAuthUserProviders(
+    """sets the columns of the filtered rows to the given values"""
+    _set: authUserProvidersSetInput
+
+    """filter the rows which have to be updated"""
+    where: authUserProvidersBoolExp!
+  ): authUserProvidersMutationResponse
+
+  """
+  update multiples rows of table: "auth.user_providers"
+  """
+  updateAuthUserProvidersMany(
+    """updates to execute, in order"""
+    updates: [authUserProvidersUpdates!]!
+  ): [authUserProvidersMutationResponse]
+
+  """
+  update single row of the table: "auth.user_roles"
+  """
+  updateAuthUserRole(
+    """sets the columns of the filtered rows to the given values"""
+    _set: authUserRolesSetInput
+    pk_columns: authUserRolesPkColumnsInput!
+  ): authUserRoles
+
+  """
+  update data of the table: "auth.user_roles"
+  """
+  updateAuthUserRoles(
+    """sets the columns of the filtered rows to the given values"""
+    _set: authUserRolesSetInput
+
+    """filter the rows which have to be updated"""
+    where: authUserRolesBoolExp!
+  ): authUserRolesMutationResponse
+
+  """
+  update multiples rows of table: "auth.user_roles"
+  """
+  updateAuthUserRolesMany(
+    """updates to execute, in order"""
+    updates: [authUserRolesUpdates!]!
+  ): [authUserRolesMutationResponse]
+
+  """
+  update single row of the table: "storage.buckets"
+  """
+  updateBucket(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: bucketsIncInput
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: bucketsSetInput
+    pk_columns: bucketsPkColumnsInput!
+  ): buckets
+
+  """
+  update data of the table: "storage.buckets"
+  """
+  updateBuckets(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: bucketsIncInput
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: bucketsSetInput
+
+    """filter the rows which have to be updated"""
+    where: bucketsBoolExp!
+  ): bucketsMutationResponse
+
+  """
+  update multiples rows of table: "storage.buckets"
+  """
+  updateBucketsMany(
+    """updates to execute, in order"""
+    updates: [bucketsUpdates!]!
+  ): [bucketsMutationResponse]
+
+  """
+  update single row of the table: "storage.files"
+  """
+  updateFile(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: filesIncInput
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: filesSetInput
+    pk_columns: filesPkColumnsInput!
+  ): files
+
+  """
+  update data of the table: "storage.files"
+  """
+  updateFiles(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: filesIncInput
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: filesSetInput
+
+    """filter the rows which have to be updated"""
+    where: filesBoolExp!
+  ): filesMutationResponse
+
+  """
+  update multiples rows of table: "storage.files"
+  """
+  updateFilesMany(
+    """updates to execute, in order"""
+    updates: [filesUpdates!]!
+  ): [filesMutationResponse]
+
+  """
+  update single row of the table: "auth.users"
+  """
+  updateUser(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: usersAppendInput
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _deleteAtPath: usersDeleteAtPathInput
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _deleteElem: usersDeleteElemInput
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _deleteKey: usersDeleteKeyInput
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: usersPrependInput
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: usersSetInput
+    pk_columns: usersPkColumnsInput!
+  ): users
+
+  """
+  update data of the table: "auth.users"
+  """
+  updateUsers(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: usersAppendInput
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _deleteAtPath: usersDeleteAtPathInput
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _deleteElem: usersDeleteElemInput
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _deleteKey: usersDeleteKeyInput
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: usersPrependInput
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: usersSetInput
+
+    """filter the rows which have to be updated"""
+    where: usersBoolExp!
+  ): usersMutationResponse
+
+  """
+  update multiples rows of table: "auth.users"
+  """
+  updateUsersMany(
+    """updates to execute, in order"""
+    updates: [usersUpdates!]!
+  ): [usersMutationResponse]
+}
+
+type query_root {
+  """fetch data from the table: "auth.providers" using primary key columns"""
+  authProvider(id: String!): authProviders
+
+  """
+  fetch data from the table: "auth.provider_requests" using primary key columns
+  """
+  authProviderRequest(id: uuid!): authProviderRequests
+
+  """
+  fetch data from the table: "auth.provider_requests"
+  """
+  authProviderRequests(
+    """distinct select on columns"""
+    distinctOn: [authProviderRequestsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authProviderRequestsOrderBy!]
+
+    """filter the rows returned"""
+    where: authProviderRequestsBoolExp
+  ): [authProviderRequests!]!
+
+  """
+  fetch aggregated fields from the table: "auth.provider_requests"
+  """
+  authProviderRequestsAggregate(
+    """distinct select on columns"""
+    distinctOn: [authProviderRequestsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authProviderRequestsOrderBy!]
+
+    """filter the rows returned"""
+    where: authProviderRequestsBoolExp
+  ): authProviderRequestsAggregate!
+
+  """
+  fetch data from the table: "auth.providers"
+  """
+  authProviders(
+    """distinct select on columns"""
+    distinctOn: [authProvidersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authProvidersOrderBy!]
+
+    """filter the rows returned"""
+    where: authProvidersBoolExp
+  ): [authProviders!]!
+
+  """
+  fetch aggregated fields from the table: "auth.providers"
+  """
+  authProvidersAggregate(
+    """distinct select on columns"""
+    distinctOn: [authProvidersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authProvidersOrderBy!]
+
+    """filter the rows returned"""
+    where: authProvidersBoolExp
+  ): authProvidersAggregate!
+
+  """
+  fetch data from the table: "auth.refresh_tokens" using primary key columns
+  """
+  authRefreshToken(refreshToken: uuid!): authRefreshTokens
+
+  """
+  fetch data from the table: "auth.refresh_tokens"
+  """
+  authRefreshTokens(
+    """distinct select on columns"""
+    distinctOn: [authRefreshTokensSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authRefreshTokensOrderBy!]
+
+    """filter the rows returned"""
+    where: authRefreshTokensBoolExp
+  ): [authRefreshTokens!]!
+
+  """
+  fetch aggregated fields from the table: "auth.refresh_tokens"
+  """
+  authRefreshTokensAggregate(
+    """distinct select on columns"""
+    distinctOn: [authRefreshTokensSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authRefreshTokensOrderBy!]
+
+    """filter the rows returned"""
+    where: authRefreshTokensBoolExp
+  ): authRefreshTokensAggregate!
+
+  """fetch data from the table: "auth.roles" using primary key columns"""
+  authRole(role: String!): authRoles
+
+  """
+  fetch data from the table: "auth.roles"
+  """
+  authRoles(
+    """distinct select on columns"""
+    distinctOn: [authRolesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authRolesOrderBy!]
+
+    """filter the rows returned"""
+    where: authRolesBoolExp
+  ): [authRoles!]!
+
+  """
+  fetch aggregated fields from the table: "auth.roles"
+  """
+  authRolesAggregate(
+    """distinct select on columns"""
+    distinctOn: [authRolesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authRolesOrderBy!]
+
+    """filter the rows returned"""
+    where: authRolesBoolExp
+  ): authRolesAggregate!
+
+  """
+  fetch data from the table: "auth.user_authenticators" using primary key columns
+  """
+  authUserAuthenticator(id: uuid!): authUserAuthenticators
+
+  """
+  fetch data from the table: "auth.user_authenticators"
+  """
+  authUserAuthenticators(
+    """distinct select on columns"""
+    distinctOn: [authUserAuthenticatorsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserAuthenticatorsOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserAuthenticatorsBoolExp
+  ): [authUserAuthenticators!]!
+
+  """
+  fetch aggregated fields from the table: "auth.user_authenticators"
+  """
+  authUserAuthenticatorsAggregate(
+    """distinct select on columns"""
+    distinctOn: [authUserAuthenticatorsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserAuthenticatorsOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserAuthenticatorsBoolExp
+  ): authUserAuthenticatorsAggregate!
+
+  """
+  fetch data from the table: "auth.user_providers" using primary key columns
+  """
+  authUserProvider(id: uuid!): authUserProviders
+
+  """
+  fetch data from the table: "auth.user_providers"
+  """
+  authUserProviders(
+    """distinct select on columns"""
+    distinctOn: [authUserProvidersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserProvidersOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserProvidersBoolExp
+  ): [authUserProviders!]!
+
+  """
+  fetch aggregated fields from the table: "auth.user_providers"
+  """
+  authUserProvidersAggregate(
+    """distinct select on columns"""
+    distinctOn: [authUserProvidersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserProvidersOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserProvidersBoolExp
+  ): authUserProvidersAggregate!
+
+  """fetch data from the table: "auth.user_roles" using primary key columns"""
+  authUserRole(id: uuid!): authUserRoles
+
+  """
+  fetch data from the table: "auth.user_roles"
+  """
+  authUserRoles(
+    """distinct select on columns"""
+    distinctOn: [authUserRolesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserRolesOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserRolesBoolExp
+  ): [authUserRoles!]!
+
+  """
+  fetch aggregated fields from the table: "auth.user_roles"
+  """
+  authUserRolesAggregate(
+    """distinct select on columns"""
+    distinctOn: [authUserRolesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserRolesOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserRolesBoolExp
+  ): authUserRolesAggregate!
+
+  """fetch data from the table: "storage.buckets" using primary key columns"""
+  bucket(id: String!): buckets
+
+  """
+  fetch data from the table: "storage.buckets"
+  """
+  buckets(
+    """distinct select on columns"""
+    distinctOn: [bucketsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [bucketsOrderBy!]
+
+    """filter the rows returned"""
+    where: bucketsBoolExp
+  ): [buckets!]!
+
+  """
+  fetch aggregated fields from the table: "storage.buckets"
+  """
+  bucketsAggregate(
+    """distinct select on columns"""
+    distinctOn: [bucketsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [bucketsOrderBy!]
+
+    """filter the rows returned"""
+    where: bucketsBoolExp
+  ): bucketsAggregate!
+
+  """fetch data from the table: "storage.files" using primary key columns"""
+  file(id: uuid!): files
+
+  """An array relationship"""
+  files(
+    """distinct select on columns"""
+    distinctOn: [filesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [filesOrderBy!]
+
+    """filter the rows returned"""
+    where: filesBoolExp
+  ): [files!]!
+
+  """An aggregate relationship"""
+  filesAggregate(
+    """distinct select on columns"""
+    distinctOn: [filesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [filesOrderBy!]
+
+    """filter the rows returned"""
+    where: filesBoolExp
+  ): filesAggregate!
+
+  """fetch data from the table: "auth.users" using primary key columns"""
+  user(id: uuid!): users
+
+  """
+  fetch data from the table: "auth.users"
+  """
+  users(
+    """distinct select on columns"""
+    distinctOn: [usersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [usersOrderBy!]
+
+    """filter the rows returned"""
+    where: usersBoolExp
+  ): [users!]!
+
+  """
+  fetch aggregated fields from the table: "auth.users"
+  """
+  usersAggregate(
+    """distinct select on columns"""
+    distinctOn: [usersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [usersOrderBy!]
+
+    """filter the rows returned"""
+    where: usersBoolExp
+  ): usersAggregate!
+}
+
+type subscription_root {
+  """fetch data from the table: "auth.providers" using primary key columns"""
+  authProvider(id: String!): authProviders
+
+  """
+  fetch data from the table: "auth.provider_requests" using primary key columns
+  """
+  authProviderRequest(id: uuid!): authProviderRequests
+
+  """
+  fetch data from the table: "auth.provider_requests"
+  """
+  authProviderRequests(
+    """distinct select on columns"""
+    distinctOn: [authProviderRequestsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authProviderRequestsOrderBy!]
+
+    """filter the rows returned"""
+    where: authProviderRequestsBoolExp
+  ): [authProviderRequests!]!
+
+  """
+  fetch aggregated fields from the table: "auth.provider_requests"
+  """
+  authProviderRequestsAggregate(
+    """distinct select on columns"""
+    distinctOn: [authProviderRequestsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authProviderRequestsOrderBy!]
+
+    """filter the rows returned"""
+    where: authProviderRequestsBoolExp
+  ): authProviderRequestsAggregate!
+
+  """
+  fetch data from the table in a streaming manner : "auth.provider_requests"
+  """
+  authProviderRequestsStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [authProviderRequests_streamCursorInput]!
+
+    """filter the rows returned"""
+    where: authProviderRequestsBoolExp
+  ): [authProviderRequests!]!
+
+  """
+  fetch data from the table: "auth.providers"
+  """
+  authProviders(
+    """distinct select on columns"""
+    distinctOn: [authProvidersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authProvidersOrderBy!]
+
+    """filter the rows returned"""
+    where: authProvidersBoolExp
+  ): [authProviders!]!
+
+  """
+  fetch aggregated fields from the table: "auth.providers"
+  """
+  authProvidersAggregate(
+    """distinct select on columns"""
+    distinctOn: [authProvidersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authProvidersOrderBy!]
+
+    """filter the rows returned"""
+    where: authProvidersBoolExp
+  ): authProvidersAggregate!
+
+  """
+  fetch data from the table in a streaming manner : "auth.providers"
+  """
+  authProvidersStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [authProviders_streamCursorInput]!
+
+    """filter the rows returned"""
+    where: authProvidersBoolExp
+  ): [authProviders!]!
+
+  """
+  fetch data from the table: "auth.refresh_tokens" using primary key columns
+  """
+  authRefreshToken(refreshToken: uuid!): authRefreshTokens
+
+  """
+  fetch data from the table: "auth.refresh_tokens"
+  """
+  authRefreshTokens(
+    """distinct select on columns"""
+    distinctOn: [authRefreshTokensSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authRefreshTokensOrderBy!]
+
+    """filter the rows returned"""
+    where: authRefreshTokensBoolExp
+  ): [authRefreshTokens!]!
+
+  """
+  fetch aggregated fields from the table: "auth.refresh_tokens"
+  """
+  authRefreshTokensAggregate(
+    """distinct select on columns"""
+    distinctOn: [authRefreshTokensSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authRefreshTokensOrderBy!]
+
+    """filter the rows returned"""
+    where: authRefreshTokensBoolExp
+  ): authRefreshTokensAggregate!
+
+  """
+  fetch data from the table in a streaming manner : "auth.refresh_tokens"
+  """
+  authRefreshTokensStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [authRefreshTokens_streamCursorInput]!
+
+    """filter the rows returned"""
+    where: authRefreshTokensBoolExp
+  ): [authRefreshTokens!]!
+
+  """fetch data from the table: "auth.roles" using primary key columns"""
+  authRole(role: String!): authRoles
+
+  """
+  fetch data from the table: "auth.roles"
+  """
+  authRoles(
+    """distinct select on columns"""
+    distinctOn: [authRolesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authRolesOrderBy!]
+
+    """filter the rows returned"""
+    where: authRolesBoolExp
+  ): [authRoles!]!
+
+  """
+  fetch aggregated fields from the table: "auth.roles"
+  """
+  authRolesAggregate(
+    """distinct select on columns"""
+    distinctOn: [authRolesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authRolesOrderBy!]
+
+    """filter the rows returned"""
+    where: authRolesBoolExp
+  ): authRolesAggregate!
+
+  """
+  fetch data from the table in a streaming manner : "auth.roles"
+  """
+  authRolesStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [authRoles_streamCursorInput]!
+
+    """filter the rows returned"""
+    where: authRolesBoolExp
+  ): [authRoles!]!
+
+  """
+  fetch data from the table: "auth.user_authenticators" using primary key columns
+  """
+  authUserAuthenticator(id: uuid!): authUserAuthenticators
+
+  """
+  fetch data from the table: "auth.user_authenticators"
+  """
+  authUserAuthenticators(
+    """distinct select on columns"""
+    distinctOn: [authUserAuthenticatorsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserAuthenticatorsOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserAuthenticatorsBoolExp
+  ): [authUserAuthenticators!]!
+
+  """
+  fetch aggregated fields from the table: "auth.user_authenticators"
+  """
+  authUserAuthenticatorsAggregate(
+    """distinct select on columns"""
+    distinctOn: [authUserAuthenticatorsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserAuthenticatorsOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserAuthenticatorsBoolExp
+  ): authUserAuthenticatorsAggregate!
+
+  """
+  fetch data from the table in a streaming manner : "auth.user_authenticators"
+  """
+  authUserAuthenticatorsStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [authUserAuthenticators_streamCursorInput]!
+
+    """filter the rows returned"""
+    where: authUserAuthenticatorsBoolExp
+  ): [authUserAuthenticators!]!
+
+  """
+  fetch data from the table: "auth.user_providers" using primary key columns
+  """
+  authUserProvider(id: uuid!): authUserProviders
+
+  """
+  fetch data from the table: "auth.user_providers"
+  """
+  authUserProviders(
+    """distinct select on columns"""
+    distinctOn: [authUserProvidersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserProvidersOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserProvidersBoolExp
+  ): [authUserProviders!]!
+
+  """
+  fetch aggregated fields from the table: "auth.user_providers"
+  """
+  authUserProvidersAggregate(
+    """distinct select on columns"""
+    distinctOn: [authUserProvidersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserProvidersOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserProvidersBoolExp
+  ): authUserProvidersAggregate!
+
+  """
+  fetch data from the table in a streaming manner : "auth.user_providers"
+  """
+  authUserProvidersStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [authUserProviders_streamCursorInput]!
+
+    """filter the rows returned"""
+    where: authUserProvidersBoolExp
+  ): [authUserProviders!]!
+
+  """fetch data from the table: "auth.user_roles" using primary key columns"""
+  authUserRole(id: uuid!): authUserRoles
+
+  """
+  fetch data from the table: "auth.user_roles"
+  """
+  authUserRoles(
+    """distinct select on columns"""
+    distinctOn: [authUserRolesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserRolesOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserRolesBoolExp
+  ): [authUserRoles!]!
+
+  """
+  fetch aggregated fields from the table: "auth.user_roles"
+  """
+  authUserRolesAggregate(
+    """distinct select on columns"""
+    distinctOn: [authUserRolesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserRolesOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserRolesBoolExp
+  ): authUserRolesAggregate!
+
+  """
+  fetch data from the table in a streaming manner : "auth.user_roles"
+  """
+  authUserRolesStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [authUserRoles_streamCursorInput]!
+
+    """filter the rows returned"""
+    where: authUserRolesBoolExp
+  ): [authUserRoles!]!
+
+  """fetch data from the table: "storage.buckets" using primary key columns"""
+  bucket(id: String!): buckets
+
+  """
+  fetch data from the table: "storage.buckets"
+  """
+  buckets(
+    """distinct select on columns"""
+    distinctOn: [bucketsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [bucketsOrderBy!]
+
+    """filter the rows returned"""
+    where: bucketsBoolExp
+  ): [buckets!]!
+
+  """
+  fetch aggregated fields from the table: "storage.buckets"
+  """
+  bucketsAggregate(
+    """distinct select on columns"""
+    distinctOn: [bucketsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [bucketsOrderBy!]
+
+    """filter the rows returned"""
+    where: bucketsBoolExp
+  ): bucketsAggregate!
+
+  """
+  fetch data from the table in a streaming manner : "storage.buckets"
+  """
+  bucketsStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [buckets_streamCursorInput]!
+
+    """filter the rows returned"""
+    where: bucketsBoolExp
+  ): [buckets!]!
+
+  """fetch data from the table: "storage.files" using primary key columns"""
+  file(id: uuid!): files
+
+  """An array relationship"""
+  files(
+    """distinct select on columns"""
+    distinctOn: [filesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [filesOrderBy!]
+
+    """filter the rows returned"""
+    where: filesBoolExp
+  ): [files!]!
+
+  """An aggregate relationship"""
+  filesAggregate(
+    """distinct select on columns"""
+    distinctOn: [filesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [filesOrderBy!]
+
+    """filter the rows returned"""
+    where: filesBoolExp
+  ): filesAggregate!
+
+  """
+  fetch data from the table in a streaming manner : "storage.files"
+  """
+  filesStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [files_streamCursorInput]!
+
+    """filter the rows returned"""
+    where: filesBoolExp
+  ): [files!]!
+
+  """fetch data from the table: "auth.users" using primary key columns"""
+  user(id: uuid!): users
+
+  """
+  fetch data from the table: "auth.users"
+  """
+  users(
+    """distinct select on columns"""
+    distinctOn: [usersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [usersOrderBy!]
+
+    """filter the rows returned"""
+    where: usersBoolExp
+  ): [users!]!
+
+  """
+  fetch aggregated fields from the table: "auth.users"
+  """
+  usersAggregate(
+    """distinct select on columns"""
+    distinctOn: [usersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [usersOrderBy!]
+
+    """filter the rows returned"""
+    where: usersBoolExp
+  ): usersAggregate!
+
+  """
+  fetch data from the table in a streaming manner : "auth.users"
+  """
+  usersStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [users_streamCursorInput]!
+
+    """filter the rows returned"""
+    where: usersBoolExp
+  ): [users!]!
+}
+
+scalar timestamptz
+
+"""
+User account information. Don't modify its structure as Hasura Auth relies on it to function properly.
+"""
+type users {
+  activeMfaType: String
+
+  """An array relationship"""
+  authenticators(
+    """distinct select on columns"""
+    distinctOn: [authUserAuthenticatorsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserAuthenticatorsOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserAuthenticatorsBoolExp
+  ): [authUserAuthenticators!]!
+
+  """An aggregate relationship"""
+  authenticatorsAggregate(
+    """distinct select on columns"""
+    distinctOn: [authUserAuthenticatorsSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserAuthenticatorsOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserAuthenticatorsBoolExp
+  ): authUserAuthenticatorsAggregate!
+  avatarUrl: String!
+  createdAt: timestamptz!
+  currentChallenge: String
+  defaultRole: String!
+
+  """An object relationship"""
+  defaultRoleByRole: authRoles!
+  disabled: Boolean!
+  displayName: String!
+  email: citext
+  emailVerified: Boolean!
+  id: uuid!
+  isAnonymous: Boolean!
+  lastSeen: timestamptz
+  locale: String!
+  metadata(
+    """JSON select path"""
+    path: String
+  ): jsonb
+  newEmail: citext
+  otpHash: String
+  otpHashExpiresAt: timestamptz!
+  otpMethodLastUsed: String
+  passwordHash: String
+  phoneNumber: String
+  phoneNumberVerified: Boolean!
+
+  """An array relationship"""
+  refreshTokens(
+    """distinct select on columns"""
+    distinctOn: [authRefreshTokensSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authRefreshTokensOrderBy!]
+
+    """filter the rows returned"""
+    where: authRefreshTokensBoolExp
+  ): [authRefreshTokens!]!
+
+  """An aggregate relationship"""
+  refreshTokensAggregate(
+    """distinct select on columns"""
+    distinctOn: [authRefreshTokensSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authRefreshTokensOrderBy!]
+
+    """filter the rows returned"""
+    where: authRefreshTokensBoolExp
+  ): authRefreshTokensAggregate!
+
+  """An array relationship"""
+  roles(
+    """distinct select on columns"""
+    distinctOn: [authUserRolesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserRolesOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserRolesBoolExp
+  ): [authUserRoles!]!
+
+  """An aggregate relationship"""
+  rolesAggregate(
+    """distinct select on columns"""
+    distinctOn: [authUserRolesSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserRolesOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserRolesBoolExp
+  ): authUserRolesAggregate!
+  ticket: String
+  ticketExpiresAt: timestamptz!
+  totpSecret: String
+  updatedAt: timestamptz!
+
+  """An array relationship"""
+  userProviders(
+    """distinct select on columns"""
+    distinctOn: [authUserProvidersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserProvidersOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserProvidersBoolExp
+  ): [authUserProviders!]!
+
+  """An aggregate relationship"""
+  userProvidersAggregate(
+    """distinct select on columns"""
+    distinctOn: [authUserProvidersSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [authUserProvidersOrderBy!]
+
+    """filter the rows returned"""
+    where: authUserProvidersBoolExp
+  ): authUserProvidersAggregate!
+}
+
+"""
+aggregated selection of "auth.users"
+"""
+type usersAggregate {
+  aggregate: usersAggregateFields
+  nodes: [users!]!
+}
+
+"""
+aggregate fields of "auth.users"
+"""
+type usersAggregateFields {
+  count(columns: [usersSelectColumn!], distinct: Boolean): Int!
+  max: usersMaxFields
+  min: usersMinFields
+}
+
+"""
+order by aggregate values of table "auth.users"
+"""
+input usersAggregateOrderBy {
+  count: OrderBy
+  max: users_max_order_by
+  min: users_min_order_by
+}
+
+"""append existing jsonb value of filtered columns with new jsonb value"""
+input usersAppendInput {
+  metadata: jsonb
+}
+
+"""
+input type for inserting array relation for remote table "auth.users"
+"""
+input usersArrRelInsertInput {
+  data: [usersInsertInput!]!
+
+  """upsert condition"""
+  onConflict: usersOnConflict
+}
+
+"""
+Boolean expression to filter rows from the table "auth.users". All fields are combined with a logical 'AND'.
+"""
+input usersBoolExp {
+  _and: [usersBoolExp!]
+  _not: usersBoolExp
+  _or: [usersBoolExp!]
+  activeMfaType: StringComparisonExp
+  authenticators: authUserAuthenticatorsBoolExp
+  avatarUrl: StringComparisonExp
+  createdAt: TimestamptzComparisonExp
+  currentChallenge: StringComparisonExp
+  defaultRole: StringComparisonExp
+  defaultRoleByRole: authRolesBoolExp
+  disabled: BooleanComparisonExp
+  displayName: StringComparisonExp
+  email: CitextComparisonExp
+  emailVerified: BooleanComparisonExp
+  id: UuidComparisonExp
+  isAnonymous: BooleanComparisonExp
+  lastSeen: TimestamptzComparisonExp
+  locale: StringComparisonExp
+  metadata: JsonbComparisonExp
+  newEmail: CitextComparisonExp
+  otpHash: StringComparisonExp
+  otpHashExpiresAt: TimestamptzComparisonExp
+  otpMethodLastUsed: StringComparisonExp
+  passwordHash: StringComparisonExp
+  phoneNumber: StringComparisonExp
+  phoneNumberVerified: BooleanComparisonExp
+  refreshTokens: authRefreshTokensBoolExp
+  roles: authUserRolesBoolExp
+  ticket: StringComparisonExp
+  ticketExpiresAt: TimestamptzComparisonExp
+  totpSecret: StringComparisonExp
+  updatedAt: TimestamptzComparisonExp
+  userProviders: authUserProvidersBoolExp
+}
+
+"""
+unique or primary key constraints on table "auth.users"
+"""
+enum usersConstraint {
+  """
+  unique or primary key constraint on columns "email"
+  """
+  users_email_key
+
+  """
+  unique or primary key constraint on columns "phone_number"
+  """
+  users_phone_number_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  users_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input usersDeleteAtPathInput {
+  metadata: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input usersDeleteElemInput {
+  metadata: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input usersDeleteKeyInput {
+  metadata: String
+}
+
+"""
+input type for inserting data into table "auth.users"
+"""
+input usersInsertInput {
+  activeMfaType: String
+  authenticators: authUserAuthenticatorsArrRelInsertInput
+  avatarUrl: String
+  createdAt: timestamptz
+  currentChallenge: String
+  defaultRole: String
+  defaultRoleByRole: authRolesObjRelInsertInput
+  disabled: Boolean
+  displayName: String
+  email: citext
+  emailVerified: Boolean
+  id: uuid
+  isAnonymous: Boolean
+  lastSeen: timestamptz
+  locale: String
+  metadata: jsonb
+  newEmail: citext
+  otpHash: String
+  otpHashExpiresAt: timestamptz
+  otpMethodLastUsed: String
+  passwordHash: String
+  phoneNumber: String
+  phoneNumberVerified: Boolean
+  refreshTokens: authRefreshTokensArrRelInsertInput
+  roles: authUserRolesArrRelInsertInput
+  ticket: String
+  ticketExpiresAt: timestamptz
+  totpSecret: String
+  updatedAt: timestamptz
+  userProviders: authUserProvidersArrRelInsertInput
+}
+
+"""aggregate max on columns"""
+type usersMaxFields {
+  activeMfaType: String
+  avatarUrl: String
+  createdAt: timestamptz
+  currentChallenge: String
+  defaultRole: String
+  displayName: String
+  email: citext
+  id: uuid
+  lastSeen: timestamptz
+  locale: String
+  newEmail: citext
+  otpHash: String
+  otpHashExpiresAt: timestamptz
+  otpMethodLastUsed: String
+  passwordHash: String
+  phoneNumber: String
+  ticket: String
+  ticketExpiresAt: timestamptz
+  totpSecret: String
+  updatedAt: timestamptz
+}
+
+"""aggregate min on columns"""
+type usersMinFields {
+  activeMfaType: String
+  avatarUrl: String
+  createdAt: timestamptz
+  currentChallenge: String
+  defaultRole: String
+  displayName: String
+  email: citext
+  id: uuid
+  lastSeen: timestamptz
+  locale: String
+  newEmail: citext
+  otpHash: String
+  otpHashExpiresAt: timestamptz
+  otpMethodLastUsed: String
+  passwordHash: String
+  phoneNumber: String
+  ticket: String
+  ticketExpiresAt: timestamptz
+  totpSecret: String
+  updatedAt: timestamptz
+}
+
+"""
+response of any mutation on the table "auth.users"
+"""
+type usersMutationResponse {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [users!]!
+}
+
+"""
+input type for inserting object relation for remote table "auth.users"
+"""
+input usersObjRelInsertInput {
+  data: usersInsertInput!
+
+  """upsert condition"""
+  onConflict: usersOnConflict
+}
+
+"""
+on_conflict condition type for table "auth.users"
+"""
+input usersOnConflict {
+  constraint: usersConstraint!
+  update_columns: [usersUpdateColumn!]! = []
+  where: usersBoolExp
+}
+
+"""Ordering options when selecting data from "auth.users"."""
+input usersOrderBy {
+  activeMfaType: OrderBy
+  authenticatorsAggregate: authUserAuthenticatorsAggregateOrderBy
+  avatarUrl: OrderBy
+  createdAt: OrderBy
+  currentChallenge: OrderBy
+  defaultRole: OrderBy
+  defaultRoleByRole: authRolesOrderBy
+  disabled: OrderBy
+  displayName: OrderBy
+  email: OrderBy
+  emailVerified: OrderBy
+  id: OrderBy
+  isAnonymous: OrderBy
+  lastSeen: OrderBy
+  locale: OrderBy
+  metadata: OrderBy
+  newEmail: OrderBy
+  otpHash: OrderBy
+  otpHashExpiresAt: OrderBy
+  otpMethodLastUsed: OrderBy
+  passwordHash: OrderBy
+  phoneNumber: OrderBy
+  phoneNumberVerified: OrderBy
+  refreshTokensAggregate: authRefreshTokensAggregateOrderBy
+  rolesAggregate: authUserRolesAggregateOrderBy
+  ticket: OrderBy
+  ticketExpiresAt: OrderBy
+  totpSecret: OrderBy
+  updatedAt: OrderBy
+  userProvidersAggregate: authUserProvidersAggregateOrderBy
+}
+
+"""primary key columns input for table: auth.users"""
+input usersPkColumnsInput {
+  id: uuid!
+}
+
+"""prepend existing jsonb value of filtered columns with new jsonb value"""
+input usersPrependInput {
+  metadata: jsonb
+}
+
+"""
+select columns of table "auth.users"
+"""
+enum usersSelectColumn {
+  """column name"""
+  activeMfaType
+
+  """column name"""
+  avatarUrl
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  currentChallenge
+
+  """column name"""
+  defaultRole
+
+  """column name"""
+  disabled
+
+  """column name"""
+  displayName
+
+  """column name"""
+  email
+
+  """column name"""
+  emailVerified
+
+  """column name"""
+  id
+
+  """column name"""
+  isAnonymous
+
+  """column name"""
+  lastSeen
+
+  """column name"""
+  locale
+
+  """column name"""
+  metadata
+
+  """column name"""
+  newEmail
+
+  """column name"""
+  otpHash
+
+  """column name"""
+  otpHashExpiresAt
+
+  """column name"""
+  otpMethodLastUsed
+
+  """column name"""
+  passwordHash
+
+  """column name"""
+  phoneNumber
+
+  """column name"""
+  phoneNumberVerified
+
+  """column name"""
+  ticket
+
+  """column name"""
+  ticketExpiresAt
+
+  """column name"""
+  totpSecret
+
+  """column name"""
+  updatedAt
+}
+
+"""
+input type for updating data in table "auth.users"
+"""
+input usersSetInput {
+  activeMfaType: String
+  avatarUrl: String
+  createdAt: timestamptz
+  currentChallenge: String
+  defaultRole: String
+  disabled: Boolean
+  displayName: String
+  email: citext
+  emailVerified: Boolean
+  id: uuid
+  isAnonymous: Boolean
+  lastSeen: timestamptz
+  locale: String
+  metadata: jsonb
+  newEmail: citext
+  otpHash: String
+  otpHashExpiresAt: timestamptz
+  otpMethodLastUsed: String
+  passwordHash: String
+  phoneNumber: String
+  phoneNumberVerified: Boolean
+  ticket: String
+  ticketExpiresAt: timestamptz
+  totpSecret: String
+  updatedAt: timestamptz
+}
+
+"""
+update columns of table "auth.users"
+"""
+enum usersUpdateColumn {
+  """column name"""
+  activeMfaType
+
+  """column name"""
+  avatarUrl
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  currentChallenge
+
+  """column name"""
+  defaultRole
+
+  """column name"""
+  disabled
+
+  """column name"""
+  displayName
+
+  """column name"""
+  email
+
+  """column name"""
+  emailVerified
+
+  """column name"""
+  id
+
+  """column name"""
+  isAnonymous
+
+  """column name"""
+  lastSeen
+
+  """column name"""
+  locale
+
+  """column name"""
+  metadata
+
+  """column name"""
+  newEmail
+
+  """column name"""
+  otpHash
+
+  """column name"""
+  otpHashExpiresAt
+
+  """column name"""
+  otpMethodLastUsed
+
+  """column name"""
+  passwordHash
+
+  """column name"""
+  phoneNumber
+
+  """column name"""
+  phoneNumberVerified
+
+  """column name"""
+  ticket
+
+  """column name"""
+  ticketExpiresAt
+
+  """column name"""
+  totpSecret
+
+  """column name"""
+  updatedAt
+}
+
+input usersUpdates {
+  """append existing jsonb value of filtered columns with new jsonb value"""
+  _append: usersAppendInput
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _deleteAtPath: usersDeleteAtPathInput
+
+  """
+  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+  """
+  _deleteElem: usersDeleteElemInput
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _deleteKey: usersDeleteKeyInput
+
+  """prepend existing jsonb value of filtered columns with new jsonb value"""
+  _prepend: usersPrependInput
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: usersSetInput
+  where: usersBoolExp!
+}
+
+"""
+order by max() on columns of table "auth.users"
+"""
+input users_max_order_by {
+  activeMfaType: OrderBy
+  avatarUrl: OrderBy
+  createdAt: OrderBy
+  currentChallenge: OrderBy
+  defaultRole: OrderBy
+  displayName: OrderBy
+  email: OrderBy
+  id: OrderBy
+  lastSeen: OrderBy
+  locale: OrderBy
+  newEmail: OrderBy
+  otpHash: OrderBy
+  otpHashExpiresAt: OrderBy
+  otpMethodLastUsed: OrderBy
+  passwordHash: OrderBy
+  phoneNumber: OrderBy
+  ticket: OrderBy
+  ticketExpiresAt: OrderBy
+  totpSecret: OrderBy
+  updatedAt: OrderBy
+}
+
+"""
+order by min() on columns of table "auth.users"
+"""
+input users_min_order_by {
+  activeMfaType: OrderBy
+  avatarUrl: OrderBy
+  createdAt: OrderBy
+  currentChallenge: OrderBy
+  defaultRole: OrderBy
+  displayName: OrderBy
+  email: OrderBy
+  id: OrderBy
+  lastSeen: OrderBy
+  locale: OrderBy
+  newEmail: OrderBy
+  otpHash: OrderBy
+  otpHashExpiresAt: OrderBy
+  otpMethodLastUsed: OrderBy
+  passwordHash: OrderBy
+  phoneNumber: OrderBy
+  ticket: OrderBy
+  ticketExpiresAt: OrderBy
+  totpSecret: OrderBy
+  updatedAt: OrderBy
+}
+
+"""
+Streaming cursor of the table "users"
+"""
+input users_streamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: users_streamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input users_streamCursorValueInput {
+  activeMfaType: String
+  avatarUrl: String
+  createdAt: timestamptz
+  currentChallenge: String
+  defaultRole: String
+  disabled: Boolean
+  displayName: String
+  email: citext
+  emailVerified: Boolean
+  id: uuid
+  isAnonymous: Boolean
+  lastSeen: timestamptz
+  locale: String
+  metadata: jsonb
+  newEmail: citext
+  otpHash: String
+  otpHashExpiresAt: timestamptz
+  otpMethodLastUsed: String
+  passwordHash: String
+  phoneNumber: String
+  phoneNumberVerified: Boolean
+  ticket: String
+  ticketExpiresAt: timestamptz
+  totpSecret: String
+  updatedAt: timestamptz
+}
+
+scalar uuid
+

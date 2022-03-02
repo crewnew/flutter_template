@@ -1,0 +1,12 @@
+query User($id: uuid!) {
+  user(id: $id) {
+    ...User
+  }
+}
+
+# Tip: Use where or any top level field as a mutation variable, as you get the argument model.
+query Users($where: usersBoolExp = {}) {
+  users(where: $where) {
+    ...User
+  }
+}
